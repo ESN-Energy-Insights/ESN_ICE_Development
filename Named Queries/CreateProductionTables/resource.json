@@ -1,0 +1,46 @@
+{
+  "scope": "DG",
+  "version": 2,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "query.sql"
+  ],
+  "attributes": {
+    "useMaxReturnSize": false,
+    "autoBatchEnabled": false,
+    "fallbackValue": "",
+    "maxReturnSize": 100,
+    "cacheUnit": "SEC",
+    "type": "Query",
+    "enabled": true,
+    "cacheAmount": 1,
+    "cacheEnabled": false,
+    "database": "",
+    "fallbackEnabled": false,
+    "lastModificationSignature": "4b598a29a5df3dc8b790a7cb5f319b732f7b2fa54f44e325e43aa7e4510ccdea",
+    "permissions": [
+      {
+        "zone": "",
+        "role": ""
+      }
+    ],
+    "lastModification": {
+      "actor": "becca@energysystemsnetwork.com",
+      "timestamp": "2024-03-13T21:18:17Z"
+    },
+    "syntaxProvider": "class com.adbs.syntax.MySQLSyntaxProvider",
+    "parameters": [
+      {
+        "type": "QueryString",
+        "identifier": "ProdTableName",
+        "sqlType": 7
+      },
+      {
+        "type": "QueryString",
+        "identifier": "PartTableName",
+        "sqlType": 7
+      }
+    ]
+  }
+}
