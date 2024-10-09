@@ -1,0 +1,292 @@
+{
+  "custom": {
+    "isChangingPassword": false
+  },
+  "params": {},
+  "propConfig": {
+    "custom.isChangingPassword": {
+      "persistent": true
+    },
+    "params.feature": {
+      "paramDirection": "input"
+    },
+    "params.key": {
+      "paramDirection": "input"
+    },
+    "params.tier1": {
+      "paramDirection": "input"
+    },
+    "params.tier2": {
+      "paramDirection": "input"
+    }
+  },
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "basis": "56px",
+          "shrink": 0
+        },
+        "props": {
+          "params": {
+            "icon": "settings",
+            "text": "User Settings"
+          },
+          "path": "Page/Embedded/Title"
+        },
+        "type": "ia.display.view"
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "events": {
+                  "dom": {
+                    "onClick": {
+                      "config": {
+                        "script": "\tself.view.custom.isChangingPassword \u003d True"
+                      },
+                      "scope": "G",
+                      "type": "script"
+                    }
+                  }
+                },
+                "meta": {
+                  "name": "Button"
+                },
+                "position": {
+                  "basis": "216px"
+                },
+                "props": {
+                  "text": "Change Password"
+                },
+                "type": "ia.input.button"
+              }
+            ],
+            "meta": {
+              "name": "btnChangePassword"
+            },
+            "position": {
+              "basis": "41px"
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "!{view.custom.isChangingPassword}"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Label"
+                    },
+                    "position": {
+                      "basis": "50px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontWeight": "bold",
+                        "marginBottom": 5
+                      },
+                      "text": "New Password"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "events": {
+                      "component": {
+                        "onActionPerformed": {
+                          "config": {
+                            "script": "\tself.view.custom.isChangingPassword \u003d False"
+                          },
+                          "scope": "G",
+                          "type": "script"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "name": "txtPass1"
+                    },
+                    "position": {
+                      "basis": 100
+                    },
+                    "type": "ia.input.password-field"
+                  },
+                  {
+                    "meta": {
+                      "name": "Label_0"
+                    },
+                    "position": {
+                      "basis": "50px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontWeight": "bold",
+                        "marginBottom": 5,
+                        "marginTop": 10
+                      },
+                      "text": "Password Confirm"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "txtPass2"
+                    },
+                    "position": {
+                      "basis": 100
+                    },
+                    "type": "ia.input.password-field"
+                  },
+                  {
+                    "children": [
+                      {
+                        "events": {
+                          "component": {
+                            "onActionPerformed": {
+                              "config": {
+                                "script": "\n\tpassword \u003d self.parent.parent.getChild(\"txtPass1\").props.text\n\tself.parent.parent.getChild(\"txtPass1\").props.text \u003d \u0027\u0027\n\tself.parent.parent.getChild(\"txtPass2\").props.text \u003d \u0027\u0027\n\tESN.security.changeUserPassword(self.session.props.auth.user.userName, password)\n\tself.view.custom.isChangingPassword \u003d False"
+                              },
+                              "scope": "G",
+                              "type": "script"
+                            }
+                          }
+                        },
+                        "meta": {
+                          "name": "btnChange"
+                        },
+                        "position": {
+                          "basis": "80%"
+                        },
+                        "propConfig": {
+                          "props.enabled": {
+                            "binding": {
+                              "config": {
+                                "expression": "{.../txtPass1.props.text} \u003d {.../txtPass2.props.text} \u0026\u0026 {.../txtPass1.props.text} !\u003d \u0027\u0027"
+                              },
+                              "type": "expr"
+                            }
+                          }
+                        },
+                        "props": {
+                          "style": {
+                            "marginTop": 10
+                          },
+                          "text": "Change Password"
+                        },
+                        "type": "ia.input.button"
+                      },
+                      {
+                        "events": {
+                          "component": {
+                            "onActionPerformed": {
+                              "config": {
+                                "script": "\tself.parent.parent.getChild(\"txtPass1\").props.text \u003d \u0027\u0027\n\tself.parent.parent.getChild(\"txtPass2\").props.text \u003d \u0027\u0027\n\tself.view.custom.isChangingPassword \u003d False"
+                              },
+                              "scope": "G",
+                              "type": "script"
+                            }
+                          }
+                        },
+                        "meta": {
+                          "name": "btnCancel"
+                        },
+                        "position": {
+                          "basis": 70
+                        },
+                        "props": {
+                          "primary": false,
+                          "style": {
+                            "marginLeft": 5,
+                            "marginTop": 10
+                          },
+                          "text": "Cancel"
+                        },
+                        "type": "ia.input.button"
+                      }
+                    ],
+                    "meta": {
+                      "name": "buttons"
+                    },
+                    "position": {
+                      "basis": "200px"
+                    },
+                    "type": "ia.container.flex"
+                  }
+                ],
+                "meta": {
+                  "name": "ChangePassword"
+                },
+                "position": {
+                  "basis": "300px"
+                },
+                "props": {
+                  "direction": "column",
+                  "style": {
+                    "marginTop": 10
+                  }
+                },
+                "type": "ia.container.flex"
+              }
+            ],
+            "meta": {
+              "name": "ChangePassword"
+            },
+            "position": {
+              "basis": "185px"
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "{view.custom.isChangingPassword}"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "Body"
+        },
+        "position": {
+          "basis": "200px",
+          "grow": 1
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "margin": 20
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "classes": "Page/Page"
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}
