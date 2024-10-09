@@ -1,0 +1,17 @@
+{
+  "scope": "G",
+  "version": 1,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "thumbnail.png",
+    "view.json"
+  ],
+  "attributes": {
+    "lastModificationSignature": "30c0297a4992056af72061a761f08c2aa2932e4e32af9e009b257097c4a71a2f",
+    "lastModification": {
+      "actor": "fnu.hafeez@lhpes.com",
+      "timestamp": "2024-08-03T21:49:58Z"
+    }
+  }
+}

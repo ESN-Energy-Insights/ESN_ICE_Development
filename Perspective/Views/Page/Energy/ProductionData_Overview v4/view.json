@@ -1,0 +1,711 @@
+{
+  "custom": {
+    "Dataset": {
+      "$": [
+        "ds",
+        192,
+        1717626548891
+      ],
+      "$columns": [
+        {
+          "data": [
+            1717560000000,
+            1717473600000,
+            1717387200000,
+            1717300800000,
+            1717214400000,
+            1717128000000,
+            1717041600000,
+            1716955200000,
+            1716868800000
+          ],
+          "name": "Date",
+          "type": "Date"
+        },
+        {
+          "data": [
+            30876,
+            0,
+            30063,
+            0,
+            0,
+            0,
+            30588,
+            0,
+            0
+          ],
+          "name": "Production",
+          "type": "Double"
+        },
+        {
+          "data": [
+            269,
+            0,
+            543,
+            0,
+            0,
+            0,
+            605,
+            0,
+            0
+          ],
+          "name": "PartCount",
+          "type": "Integer"
+        },
+        {
+          "data": [
+            1.1224594586550907,
+            0,
+            0.46813293184353927,
+            0,
+            0,
+            0,
+            0.4201215026586984,
+            0,
+            0
+          ],
+          "name": "EnergyPerPart",
+          "type": "Double"
+        },
+        {
+          "data": [
+            275.404296875,
+            0,
+            255.3984375,
+            0,
+            0,
+            0,
+            258.98046875,
+            1821.673828125,
+            0
+          ],
+          "name": "TotalEnergy",
+          "type": "Double"
+        },
+        {
+          "data": [
+            1717581600000,
+            1717495200000,
+            1717408800000,
+            1717322400000,
+            1717236000000,
+            1717149600000,
+            1717063200000,
+            1716976800000,
+            1716890400000
+          ],
+          "name": "StartDateTime",
+          "type": "Date"
+        },
+        {
+          "data": [
+            1717621200000,
+            1717534800000,
+            1717448400000,
+            1717362000000,
+            1717275600000,
+            1717189200000,
+            1717102800000,
+            1717016400000,
+            1716930000000
+          ],
+          "name": "EndDateTime",
+          "type": "Date"
+        }
+      ]
+    },
+    "OnOff": [
+      {
+        "aggregate": "LastValue",
+        "alias": "OnOff",
+        "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n/DashboardSettings/Production/ProductionBooleanSimple"
+      }
+    ],
+    "ProductionEndTime": {
+      "$": [
+        "ts",
+        192,
+        1716218827945
+      ],
+      "$ts": 1713387600000
+    },
+    "ProductionStartTime": {
+      "$": [
+        "ts",
+        192,
+        1716218827968
+      ],
+      "$ts": 1713348000000
+    }
+  },
+  "events": {
+    "system": {
+      "onStartup": {
+        "config": {
+          "script": "\tself.getChild(\"root\").getChild(\"ProductionOnTime\").getChild(\"ProductionTopBar\").getChild(\"EndDate\").props.value \u003d system.date.midnight(system.date.now())"
+        },
+        "scope": "G",
+        "type": "script"
+      }
+    }
+  },
+  "params": {
+    "tagPath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+  },
+  "propConfig": {
+    "custom.Dataset": {
+      "binding": {
+        "config": {
+          "expression": "{/root/ProductionOnTime/ProductionTopBar/EndDate.props.value}"
+        },
+        "transforms": [
+          {
+            "code": "\n\tnewList \u003d []\n\theaders \u003d [\"Date\", \"Production\", \"PartCount\", \"EnergyPerPart\", \"TotalEnergy\", \"StartDateTime\", \"EndDateTime\"]\n\tStartDate \u003d system.date.midnight(self.getChild(\"root\").getChild(\"ProductionOnTime\").getChild(\"ProductionTopBar\").getChild(\"EndDate\").props.value)\n\tStartHour \u003d system.date.getHour24(self.custom.ProductionStartTime)\n\tStartMinute \u003d system.date.getMinute(self.custom.ProductionStartTime)\n\tEndHour \u003d system.date.getHour24(self.custom.ProductionEndTime)\n\tEndMinute \u003d system.date.getMinute(self.custom.ProductionEndTime)\n\tOnDurationtagpath \u003d self.params.tagPath + \"/DashboardSettings/Production/ProductionBooleanSimple\"\n\tPartCounttagpath \u003d self.params.tagPath +\"/DashboardSettings/Production/Part Boolean\"\n\tPartEnergytagpath \u003d self.params.tagPath +\"/DashboardSettings/Production/Part Energy\"\n\tTotalEnergytagpath \u003d self.params.tagPath +\"/Data/Totals/Energy/Total_PositiveEnergy\"\n\t\n\tfor i in range(9):\n\t\tiDate \u003d system.date.addDays(StartDate, -1*i)\n\t\tStartTime \u003d system.date.addMinutes(system.date.addHours(iDate,StartHour),StartMinute)\n\t\tEndTime \u003d system.date.addMinutes(system.date.addHours(iDate,EndHour),EndMinute)\n\t\tProduction \u003d system.tag.queryTagHistory(paths\u003d[OnDurationtagpath], startDate\u003dStartTime, endDate\u003dEndTime, returnSize\u003d1, aggregationMode\u003d\"DurationOn\")\n\t\tProductionValue \u003d Production.getValueAt(0,1)\n\t\tPartCount \u003d system.tag.queryTagHistory(paths\u003d[PartCounttagpath], startDate\u003dStartTime, endDate\u003dEndTime, returnSize\u003d1, aggregationMode\u003d\"CountOn\")\n\t\tPartCountValue \u003d int(PartCount.getValueAt(0,1))\n\t\tif PartCountValue \u003d\u003d 0:\n\t\t\tEnergyPerPartValue \u003d 0.0\n\t\telse:\n\t\t\tEnergyPerPart \u003d system.tag.queryTagHistory(paths\u003d[PartEnergytagpath], startDate\u003dStartTime, endDate\u003dEndTime, returnSize\u003d1, aggregationMode\u003d\"SimpleAverage\")\n\t\t\t\n\t\t\tEnergyPerPartValue \u003d EnergyPerPart.getValueAt(0,1)\n\t\tTotalEnergy \u003d system.tag.queryTagHistory(paths\u003d[TotalEnergytagpath], startDate\u003dStartTime, endDate\u003dEndTime, returnSize\u003d1, aggregationMode\u003d\"Range\")\n\t\tTotalEnergyValue \u003d TotalEnergy.getValueAt(0,1)\n\n\t\tnewList.append([iDate, float(ProductionValue), PartCountValue, float(EnergyPerPartValue), float(TotalEnergyValue), StartTime, EndTime])\n\tdataset \u003d system.dataset.toDataSet(headers, newList)\n\n\treturn dataset",
+            "type": "script"
+          }
+        ],
+        "type": "expr"
+      },
+      "persistent": true
+    },
+    "custom.OnOff": {
+      "persistent": true
+    },
+    "custom.OnOff[0].path": {
+      "binding": {
+        "config": {
+          "expression": "{view.params.tagPath}+\"/DashboardSettings/Production/ProductionBooleanSimple\""
+        },
+        "type": "expr"
+      },
+      "persistent": true
+    },
+    "custom.ProductionEndTime": {
+      "binding": {
+        "config": {
+          "fallbackDelay": 2.5,
+          "mode": "indirect",
+          "references": {
+            "tagPath": "{view.params.tagPath}"
+          },
+          "tagPath": "{tagPath}/DashboardSettings/Production/ProductionEndTime"
+        },
+        "type": "tag"
+      },
+      "persistent": true
+    },
+    "custom.ProductionStartTime": {
+      "binding": {
+        "config": {
+          "fallbackDelay": 2.5,
+          "mode": "indirect",
+          "references": {
+            "tagPath": "{view.params.tagPath}"
+          },
+          "tagPath": "{tagPath}/DashboardSettings/Production/ProductionStartTime"
+        },
+        "type": "tag"
+      },
+      "persistent": true
+    },
+    "custom.Seconds": {
+      "binding": {
+        "config": {
+          "expression": "(getHour24({view.custom.ProductionEndTime})-getHour24({view.custom.ProductionStartTime}))*3600+(getMinute({view.custom.ProductionEndTime})-getMinute({view.custom.ProductionStartTime}))*60"
+        },
+        "type": "expr"
+      },
+      "persistent": false
+    },
+    "params.tagPath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 560,
+      "width": 760
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "basis": "400px"
+                },
+                "propConfig": {
+                  "props.text": {
+                    "binding": {
+                      "config": {
+                        "expression": "concat(\"Production/On-time: \", split({view.params.tagPath},\"/\")[4,\u0027parts\u0027])"
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "textStyle": {
+                    "fontFamily": "Noto Sans",
+                    "fontSize": 18,
+                    "fontWeight": "bold",
+                    "marginBottom": 5,
+                    "marginLeft": 10,
+                    "marginRight": 10,
+                    "marginTop": 5
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Spacer1"
+                },
+                "position": {
+                  "basis": "20px"
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "Label_1",
+                  "visible": false
+                },
+                "position": {
+                  "basis": "116px"
+                },
+                "props": {
+                  "text": "Look Back Days:",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "NumericEntryField"
+                },
+                "position": {
+                  "basis": "36px",
+                  "display": false
+                },
+                "props": {
+                  "inputBounds": {
+                    "maximum": 14,
+                    "minimum": 1
+                  },
+                  "value": 2
+                },
+                "type": "ia.input.numeric-entry-field"
+              },
+              {
+                "meta": {
+                  "name": "Spacer2"
+                },
+                "position": {
+                  "basis": "20px"
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "Label_0"
+                },
+                "position": {
+                  "basis": "82px"
+                },
+                "props": {
+                  "text": "End Date:",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "EndDate",
+                  "tooltip": {
+                    "enabled": true,
+                    "text": "End Date"
+                  }
+                },
+                "position": {
+                  "basis": "93px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "expression": "midnight(now(30000))"
+                      },
+                      "enabled": false,
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "format": "MM/DD/YY",
+                  "formattedValue": "06/05/24",
+                  "pickerType": "date",
+                  "placeholder": "End Date",
+                  "value": {
+                    "$": [
+                      "ts",
+                      192,
+                      1717626546933
+                    ],
+                    "$ts": 1717560000000
+                  }
+                },
+                "type": "ia.input.date-time-input"
+              }
+            ],
+            "meta": {
+              "name": "ProductionTopBar"
+            },
+            "position": {
+              "basis": "35px",
+              "shrink": 0
+            },
+            "props": {
+              "alignItems": "baseline",
+              "style": {
+                "marginTop": 10
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "FlexRepeater"
+                },
+                "position": {
+                  "height": 489,
+                  "width": 741
+                },
+                "propConfig": {
+                  "props.instances": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.custom.Dataset}"
+                      },
+                      "transforms": [
+                        {
+                          "code": "\tOutput \u003d []\n\tfor row in range(8):\n\t\tthisdict \u003d {\n  \t\t\"Date\": value.getValueAt(row,0),\n  \t\t\"Producing\": value.getValueAt(row,1)/self.view.custom.Seconds,\n  \t\t\"TotalEnergy\": value.getValueAt(row,4),\n  \t\t\"EnergyPerPart\": value.getValueAt(row,3),\n  \t\t\"PartCount\": value.getValueAt(row,2),\n  \t\t\"tagpath\": self.view.params.tagPath,\n  \t\t\"StartDateTime\": value.getValueAt(row,5),\n  \t\t\"EndDateTime\": value.getValueAt(row,6)\n  \t\t#\"DataToPlot\": self.view.custom.Dataset[1][row]\n\t\t}\n\t\tOutput.append(thisdict)\n\treturn Output",
+                          "type": "script"
+                        }
+                      ],
+                      "type": "expr"
+                    },
+                    "persistent": true
+                  }
+                },
+                "props": {
+                  "direction": "column",
+                  "instances": [
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717560000000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717621200000
+                      },
+                      "EnergyPerPart": 1.1224594586550907,
+                      "PartCount": 269,
+                      "Producing": 0.7796969696969697,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717581600000
+                      },
+                      "TotalEnergy": 275.404296875,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717473600000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717534800000
+                      },
+                      "EnergyPerPart": 0,
+                      "PartCount": 0,
+                      "Producing": 0,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717495200000
+                      },
+                      "TotalEnergy": 0,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717387200000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717448400000
+                      },
+                      "EnergyPerPart": 0.46813293184353927,
+                      "PartCount": 543,
+                      "Producing": 0.7591666666666667,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717408800000
+                      },
+                      "TotalEnergy": 255.3984375,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717300800000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717362000000
+                      },
+                      "EnergyPerPart": 0,
+                      "PartCount": 0,
+                      "Producing": 0,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717322400000
+                      },
+                      "TotalEnergy": 0,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717214400000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717275600000
+                      },
+                      "EnergyPerPart": 0,
+                      "PartCount": 0,
+                      "Producing": 0,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717236000000
+                      },
+                      "TotalEnergy": 0,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717128000000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717189200000
+                      },
+                      "EnergyPerPart": 0,
+                      "PartCount": 0,
+                      "Producing": 0,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717149600000
+                      },
+                      "TotalEnergy": 0,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717041600000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717102800000
+                      },
+                      "EnergyPerPart": 0.4201215026586984,
+                      "PartCount": 605,
+                      "Producing": 0.7724242424242425,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717063200000
+                      },
+                      "TotalEnergy": 258.98046875,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    },
+                    {
+                      "Date": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1716955200000
+                      },
+                      "EndDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1717016400000
+                      },
+                      "EnergyPerPart": 0,
+                      "PartCount": 0,
+                      "Producing": 0,
+                      "StartDateTime": {
+                        "$": [
+                          "ts",
+                          192,
+                          1717626548892
+                        ],
+                        "$ts": 1716976800000
+                      },
+                      "TotalEnergy": 1821.673828125,
+                      "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1\n"
+                    }
+                  ],
+                  "loading": {
+                    "order": "with-parent"
+                  },
+                  "path": "Page/Embedded/ProductionChart v4",
+                  "style": {
+                    "classes": "Charts/HomeDashboardCharts",
+                    "overflow": "hidden"
+                  }
+                },
+                "type": "ia.display.flex-repeater"
+              }
+            ],
+            "meta": {
+              "name": "CoordinateContainer"
+            },
+            "position": {
+              "basis": "515px"
+            },
+            "type": "ia.container.coord"
+          }
+        ],
+        "meta": {
+          "name": "ProductionOnTime"
+        },
+        "position": {
+          "basis": "633px"
+        },
+        "props": {
+          "alignContent": "flex-start",
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "classes": "Backgrounds/BackgroundBackground"
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}

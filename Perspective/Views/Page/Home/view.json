@@ -1,0 +1,134 @@
+{
+  "custom": {},
+  "params": {},
+  "propConfig": {
+    "params.feature": {
+      "paramDirection": "input"
+    },
+    "params.key": {
+      "paramDirection": "input"
+    },
+    "params.tier1": {
+      "paramDirection": "input"
+    },
+    "params.tier2": {
+      "paramDirection": "input"
+    }
+  },
+  "props": {},
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "basis": "56px",
+          "shrink": 0
+        },
+        "props": {
+          "params": {
+            "icon": "home",
+            "text": "Welcome to Energy Insights"
+          },
+          "path": "Page/Embedded/Title"
+        },
+        "type": "ia.display.view"
+      },
+      {
+        "meta": {
+          "hasDelegate": true,
+          "name": "Spacer_1"
+        },
+        "position": {
+          "basis": "12px",
+          "shrink": 0
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "hasDelegate": true,
+          "name": "Spacer_2"
+        },
+        "position": {
+          "basis": "10px",
+          "shrink": 0
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "hasDelegate": true,
+          "name": "Description"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "style": {
+            "classes": "Page/Text Page/Margins"
+          },
+          "text": "MQTT Nodes linked to your account profile are shown below."
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "hasDelegate": true,
+          "name": "Spacer_3"
+        },
+        "position": {
+          "basis": "10px",
+          "shrink": 0
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "Devices"
+        },
+        "position": {
+          "grow": 1
+        },
+        "propConfig": {
+          "props.instances": {
+            "binding": {
+              "config": {
+                "path": "session.custom.edgeNodes"
+              },
+              "transforms": [
+                {
+                  "code": "\tdevices \u003d []\n\t\n\tfor key in value:\n\t\tdevices.append({\"path\":key.fullPath})\n\treturn value",
+                  "type": "script"
+                }
+              ],
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "alignContent": "center",
+          "direction": "column",
+          "elementPosition": {
+            "basis": "auto",
+            "grow": 0
+          },
+          "path": "Templates/NodeCard",
+          "useDefaultViewWidth": false
+        },
+        "type": "ia.display.flex-repeater"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "classes": "Page/Page"
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}

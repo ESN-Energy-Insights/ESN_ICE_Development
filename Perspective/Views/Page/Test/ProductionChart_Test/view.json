@@ -1,0 +1,1274 @@
+{
+  "custom": {},
+  "params": {
+    "Date": "2024-5-5 0:00:00",
+    "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor2"
+  },
+  "propConfig": {
+    "params.Date": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 61,
+      "width": 740
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "XYChart",
+          "tooltip": {
+            "enabled": true,
+            "text": "This shows the times when the machine is \"producing\".  To change the kW threshold associated with \"production\" or the start and end times when the machine is being monitored for \"producing\" see the settings for this machine."
+          }
+        },
+        "position": {
+          "height": 60,
+          "width": 358,
+          "x": 21,
+          "y": 2
+        },
+        "propConfig": {
+          "custom.TotalUpPercent": {
+            "binding": {
+              "config": {
+                "aggregate": "MinMax",
+                "avoidScanClassValidation": true,
+                "dateRange": {
+                  "endDate": "addDays({this.custom.Date},1)",
+                  "startDate": "{this.custom.Date}"
+                },
+                "enableValueCache": true,
+                "ignoreBadQuality": false,
+                "preventInterpolation": false,
+                "returnFormat": "Wide",
+                "returnSize": {
+                  "numRows": "1",
+                  "type": "FIXED"
+                },
+                "tags": "{...../ProductionChartsContainer.custom.Path}",
+                "valueFormat": "DATASET"
+              },
+              "type": "tag-history"
+            }
+          },
+          "props.dataSources.Data": {
+            "binding": {
+              "config": {
+                "aggregate": "MinMax",
+                "avoidScanClassValidation": true,
+                "dateRange": {
+                  "endDate": "{parent.custom.EndDateTime}",
+                  "startDate": "{parent.custom.StartDateTime}"
+                },
+                "enableValueCache": true,
+                "ignoreBadQuality": false,
+                "preventInterpolation": false,
+                "returnFormat": "Wide",
+                "returnSize": {
+                  "numRows": "100",
+                  "type": "FIXED"
+                },
+                "tags": "{parent.custom.OnOff}",
+                "valueFormat": "DATASET"
+              },
+              "type": "tag-history"
+            }
+          },
+          "props.xAxes[0].date.range.max": {
+            "binding": {
+              "config": {
+                "expression": "toString({parent.custom.EndDateTime})"
+              },
+              "type": "expr"
+            }
+          },
+          "props.xAxes[0].date.range.min": {
+            "binding": {
+              "config": {
+                "expression": "toString({parent.custom.StartDateTime})"
+              },
+              "type": "expr"
+            }
+          },
+          "props.xAxes[0].value.range.max": {
+            "binding": {
+              "config": {
+                "expression": "toMillis({parent.custom.EndDateTime})"
+              },
+              "type": "expr"
+            }
+          },
+          "props.xAxes[0].value.range.min": {
+            "binding": {
+              "config": {
+                "expression": "toMillis({parent.custom.StartDateTime})"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "background": {
+            "color": "#d5d5d5",
+            "opacity": 0,
+            "render": "color"
+          },
+          "dataSources": {},
+          "legend": {
+            "enabled": false
+          },
+          "selection": {
+            "selectedHighlightColor": "#D5D5D5"
+          },
+          "series": [
+            {
+              "candlestick": {
+                "appearance": {
+                  "deriveFieldsFromData": {
+                    "fill": {
+                      "color": "",
+                      "opacity": ""
+                    },
+                    "stroke": {
+                      "color": "",
+                      "opacity": "",
+                      "width": ""
+                    }
+                  },
+                  "fill": {
+                    "color": "",
+                    "opacity": 1
+                  },
+                  "heatRules": {
+                    "dataField": "",
+                    "enabled": false,
+                    "max": "",
+                    "min": ""
+                  },
+                  "stacked": false,
+                  "stroke": {
+                    "color": "",
+                    "opacity": 1,
+                    "width": 1
+                  }
+                },
+                "high": {
+                  "x": "",
+                  "y": ""
+                },
+                "low": {
+                  "x": "",
+                  "y": ""
+                },
+                "open": {
+                  "x": "",
+                  "y": ""
+                }
+              },
+              "column": {
+                "appearance": {
+                  "deriveFieldsFromData": {
+                    "fill": {
+                      "color": "",
+                      "opacity": ""
+                    },
+                    "stroke": {
+                      "color": "",
+                      "opacity": "",
+                      "width": ""
+                    }
+                  },
+                  "fill": {
+                    "color": "",
+                    "opacity": 1
+                  },
+                  "heatRules": {
+                    "dataField": "",
+                    "enabled": false,
+                    "max": "",
+                    "min": ""
+                  },
+                  "height": null,
+                  "stacked": false,
+                  "stroke": {
+                    "color": "",
+                    "opacity": 1,
+                    "width": 1
+                  },
+                  "width": null
+                },
+                "open": {
+                  "x": "",
+                  "y": ""
+                }
+              },
+              "data": {
+                "source": "Data",
+                "x": "t_stamp",
+                "y": "Status"
+              },
+              "defaultState": {
+                "visible": true
+              },
+              "hiddenInLegend": false,
+              "label": {
+                "text": "Production"
+              },
+              "line": {
+                "appearance": {
+                  "bullets": [
+                    {
+                      "deriveFieldsFromData": {
+                        "fill": {
+                          "color": "",
+                          "opacity": ""
+                        },
+                        "rotation": "",
+                        "stroke": {
+                          "color": "",
+                          "opacity": "",
+                          "width": ""
+                        }
+                      },
+                      "enabled": false,
+                      "fill": {
+                        "color": "",
+                        "opacity": 1
+                      },
+                      "heatRules": {
+                        "dataField": "",
+                        "enabled": false,
+                        "max": 100,
+                        "min": 2
+                      },
+                      "height": 10,
+                      "label": {
+                        "position": {
+                          "dx": 0,
+                          "dy": 0
+                        },
+                        "text": "{value}"
+                      },
+                      "render": "circle",
+                      "rotation": 0,
+                      "stroke": {
+                        "color": "",
+                        "opacity": 1,
+                        "width": 1
+                      },
+                      "tooltip": {
+                        "background": {
+                          "color": "",
+                          "opacity": 1
+                        },
+                        "cornerRadius": 3,
+                        "enabled": true,
+                        "pointerLength": 4,
+                        "text": "{name}: [bold]{valueY}[/]"
+                      },
+                      "width": 10
+                    }
+                  ],
+                  "connect": true,
+                  "fill": {
+                    "color": "",
+                    "opacity": 0
+                  },
+                  "minDistance": 0.5,
+                  "stroke": {
+                    "color": "",
+                    "dashArray": "",
+                    "opacity": 1,
+                    "width": 3
+                  },
+                  "tensionX": 1,
+                  "tensionY": 1
+                },
+                "open": {
+                  "x": "",
+                  "y": ""
+                }
+              },
+              "name": "OnOff",
+              "render": "step line",
+              "stepLine": {
+                "appearance": {
+                  "bullets": [
+                    {
+                      "deriveFieldsFromData": {
+                        "fill": {
+                          "color": "",
+                          "opacity": ""
+                        },
+                        "rotation": "",
+                        "stroke": {
+                          "color": "",
+                          "opacity": "",
+                          "width": ""
+                        }
+                      },
+                      "enabled": false,
+                      "fill": {
+                        "color": "",
+                        "opacity": 1
+                      },
+                      "heatRules": {
+                        "dataField": "",
+                        "enabled": false,
+                        "max": 100,
+                        "min": 2
+                      },
+                      "height": 10,
+                      "label": {
+                        "position": {
+                          "dx": 0,
+                          "dy": 0
+                        },
+                        "text": "{value}"
+                      },
+                      "render": "circle",
+                      "rotation": 0,
+                      "stroke": {
+                        "color": "",
+                        "opacity": 1,
+                        "width": 1
+                      },
+                      "tooltip": {
+                        "background": {
+                          "color": "",
+                          "opacity": 1
+                        },
+                        "cornerRadius": 3,
+                        "enabled": true,
+                        "pointerLength": 4,
+                        "text": "{name}: [bold]{valueY}[/]"
+                      },
+                      "width": 10
+                    }
+                  ],
+                  "connect": true,
+                  "fill": {
+                    "color": "#1E90FF",
+                    "opacity": 1
+                  },
+                  "minDistance": 0.5,
+                  "stroke": {
+                    "color": "",
+                    "dashArray": "",
+                    "opacity": 0,
+                    "width": 3
+                  },
+                  "tensionX": 1,
+                  "tensionY": 1
+                },
+                "open": {
+                  "x": "",
+                  "y": ""
+                }
+              },
+              "tooltip": {
+                "background": {
+                  "color": "",
+                  "opacity": 1
+                },
+                "cornerRadius": 3,
+                "enabled": true,
+                "pointerLength": 4,
+                "text": "{name}: [bold]{valueY}[/]"
+              },
+              "visible": true,
+              "xAxis": "time",
+              "yAxis": "Production",
+              "zIndex": 0
+            }
+          ],
+          "style": {
+            "margin": 0,
+            "padding": 0
+          },
+          "xAxes": [
+            {
+              "appearance": {
+                "font": {
+                  "size": 8,
+                  "weight": 300
+                },
+                "grid": {
+                  "color": "",
+                  "dashArray": "",
+                  "minDistance": 60,
+                  "opacity": 1,
+                  "position": 0.5
+                },
+                "inside": true,
+                "labels": {
+                  "color": "",
+                  "horizontalCenter": "middle",
+                  "opacity": 1,
+                  "rotation": 0,
+                  "verticalCenter": "middle"
+                },
+                "opposite": false
+              },
+              "category": {
+                "break": {
+                  "enabled": false,
+                  "endCategory": "",
+                  "size": 0.05,
+                  "startCategory": ""
+                }
+              },
+              "date": {
+                "baseInterval": {
+                  "count": 2,
+                  "enabled": true,
+                  "skipEmptyPeriods": false,
+                  "timeUnit": "hour"
+                },
+                "break": {
+                  "enabled": false,
+                  "endDate": "",
+                  "size": 0.05,
+                  "startDate": ""
+                },
+                "format": "h a",
+                "inputFormat": "yyyy-MM-dd kk:mm:ss",
+                "range": {
+                  "useStrict": true
+                }
+              },
+              "inversed": false,
+              "label": {
+                "color": "",
+                "enabled": false,
+                "text": "Time"
+              },
+              "name": "time",
+              "render": "date",
+              "tooltip": {
+                "background": {
+                  "color": "",
+                  "opacity": 1
+                },
+                "cornerRadius": 3,
+                "enabled": true,
+                "pointerLength": 4,
+                "text": ""
+              },
+              "value": {
+                "break": {
+                  "enabled": false,
+                  "endValue": 100,
+                  "size": 0.05,
+                  "startValue": 0
+                },
+                "format": "#,###.##",
+                "logarithmic": false,
+                "range": {
+                  "useStrict": true
+                }
+              },
+              "visible": true
+            }
+          ],
+          "yAxes": [
+            {
+              "appearance": {
+                "font": {
+                  "size": "",
+                  "weight": 500
+                },
+                "grid": {
+                  "color": "",
+                  "dashArray": "",
+                  "minDistance": 100,
+                  "opacity": 1,
+                  "position": 1
+                },
+                "inside": false,
+                "labels": {
+                  "color": "",
+                  "horizontalCenter": "middle",
+                  "opacity": 1,
+                  "rotation": 0,
+                  "verticalCenter": "middle"
+                },
+                "opposite": false
+              },
+              "category": {
+                "break": {
+                  "enabled": false,
+                  "endCategory": "",
+                  "size": 0.05,
+                  "startCategory": ""
+                }
+              },
+              "date": {
+                "baseInterval": {
+                  "count": 1,
+                  "enabled": false,
+                  "skipEmptyPeriods": false,
+                  "timeUnit": "hour"
+                },
+                "break": {
+                  "enabled": false,
+                  "endDate": "",
+                  "size": 0.05,
+                  "startDate": ""
+                },
+                "format": "HH:mm:ss a",
+                "inputFormat": "yyyy-MM-dd kk:mm:ss",
+                "range": {
+                  "max": "",
+                  "min": "",
+                  "useStrict": false
+                }
+              },
+              "inversed": false,
+              "label": {
+                "color": "",
+                "enabled": false,
+                "text": "Process Temp"
+              },
+              "name": "Production",
+              "render": "value",
+              "tooltip": {
+                "background": {
+                  "color": "",
+                  "opacity": 1
+                },
+                "cornerRadius": 3,
+                "enabled": true,
+                "pointerLength": 4,
+                "text": ""
+              },
+              "value": {
+                "break": {
+                  "enabled": false,
+                  "endValue": 100,
+                  "size": 0.05,
+                  "startValue": 0
+                },
+                "format": "#,###.##",
+                "logarithmic": false,
+                "range": {
+                  "max": 1,
+                  "min": ".5",
+                  "useStrict": false
+                }
+              },
+              "visible": false
+            }
+          ]
+        },
+        "type": "ia.chart.xy"
+      },
+      {
+        "meta": {
+          "name": "Label"
+        },
+        "position": {
+          "height": 32,
+          "rotate": {
+            "anchor": "-92% -94%"
+          },
+          "width": 37,
+          "x": 8,
+          "y": 15.5
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "expression": "dateFormat({view.params.Date},\u0027M/d\u0027)"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "textStyle": {
+            "classes": "All_Text/Base_Text",
+            "color": "#0254A0",
+            "fontWeight": "bold"
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label_0"
+            },
+            "position": {
+              "grow": 1,
+              "shrink": 0
+            },
+            "props": {
+              "alignVertical": "bottom",
+              "text": "Part count",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Tex_tiny",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_1"
+            },
+            "position": {
+              "basis": "41px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "aggregate": "MinMax",
+                    "avoidScanClassValidation": true,
+                    "dateRange": {
+                      "endDate": "addDays({view.params.Date},1)",
+                      "startDate": "{view.params.Date}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Wide",
+                    "returnSize": {
+                      "numRows": "1",
+                      "type": "FIXED"
+                    },
+                    "tags": "{/root.custom.PartCount}",
+                    "valueFormat": "DATASET"
+                  },
+                  "transforms": [
+                    {
+                      "expression": "{value}[0,1]",
+                      "type": "expression"
+                    }
+                  ],
+                  "type": "tag-history"
+                },
+                "onChange": {
+                  "enabled": null,
+                  "script": "\tsystem.perspective.print(\u0027Part count previousValue: \u0027 + str(previousValue) )\n\tsystem.perspective.print(\u0027Part count currentValue: \u0027 + str(currentValue) )"
+                }
+              }
+            },
+            "props": {
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer_1",
+          "tooltip": {
+            "enabled": true,
+            "text": "Count the number of parts being made, where the parts are defined by the power crosing the part count threshold.  Change that threshold in the machine settings."
+          }
+        },
+        "position": {
+          "height": 61,
+          "width": 90,
+          "x": 460
+        },
+        "props": {
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label_3"
+            },
+            "position": {
+              "grow": 1,
+              "shrink": 0
+            },
+            "props": {
+              "alignVertical": "bottom",
+              "text": "Energy per part",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Tex_tiny",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_4"
+            },
+            "position": {
+              "basis": "41px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "custom.PartCounter": {
+                "binding": {
+                  "config": {
+                    "aggregate": "MinMax",
+                    "avoidScanClassValidation": true,
+                    "dateRange": {
+                      "endDate": "{../XYChart.custom.EndDateTime}",
+                      "startDate": "{../XYChart.custom.StartDateTime}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Wide",
+                    "returnSize": {
+                      "numRows": "1",
+                      "type": "FIXED"
+                    },
+                    "tags": "{this.custom.PartCount}",
+                    "valueFormat": "DATASET"
+                  },
+                  "type": "tag-history"
+                }
+              },
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "avoidScanClassValidation": true,
+                    "calculations": [
+                      "SimpleAverage"
+                    ],
+                    "dateRange": {
+                      "endDate": "addDays({view.params.Date},1)",
+                      "startDate": "{view.params.Date}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Calculations",
+                    "tags": "{/root.custom.EnergyPerPart}",
+                    "valueFormat": "DATASET"
+                  },
+                  "transforms": [
+                    {
+                      "expression": "{value}[0,2]",
+                      "type": "expression"
+                    }
+                  ],
+                  "type": "tag-history"
+                }
+              }
+            },
+            "props": {
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer_0",
+          "tooltip": {
+            "enabled": true,
+            "text": "Average energy consumed when a part was being made. It is the average of the energy per part across the producing hours."
+          }
+        },
+        "position": {
+          "height": 61,
+          "rotate": {
+            "anchor": "0% -12%"
+          },
+          "width": 100,
+          "x": 550
+        },
+        "props": {
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label_3"
+            },
+            "position": {
+              "grow": 1,
+              "shrink": 0
+            },
+            "props": {
+              "alignVertical": "bottom",
+              "text": "% Producing",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Tex_tiny",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_4"
+            },
+            "position": {
+              "basis": "41px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "custom.PartCounter": {
+                "binding": {
+                  "config": {
+                    "aggregate": "MinMax",
+                    "avoidScanClassValidation": true,
+                    "dateRange": {
+                      "endDate": "{../XYChart.custom.EndDateTime}",
+                      "startDate": "{../XYChart.custom.StartDateTime}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Wide",
+                    "returnSize": {
+                      "numRows": "1",
+                      "type": "FIXED"
+                    },
+                    "tags": "{this.custom.PartCount}",
+                    "valueFormat": "DATASET"
+                  },
+                  "type": "tag-history"
+                }
+              },
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "avoidScanClassValidation": true,
+                    "calculations": [
+                      "DurationOn"
+                    ],
+                    "dateRange": {
+                      "endDate": "addDays({view.params.Date},1)",
+                      "startDate": "{view.params.Date}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Calculations",
+                    "tags": "{/root.custom.OnOff}",
+                    "valueFormat": "DATASET"
+                  },
+                  "transforms": [
+                    {
+                      "expression": "{value}[0,2]",
+                      "type": "expression"
+                    }
+                  ],
+                  "type": "tag-history"
+                }
+              }
+            },
+            "props": {
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "color": "#0254A0",
+                "fontWeight": "bold",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer_2",
+          "tooltip": {
+            "enabled": true,
+            "text": "percent of the producing hours when the machine was \"producing\"."
+          }
+        },
+        "position": {
+          "height": 61,
+          "rotate": {
+            "anchor": "0% -12%"
+          },
+          "width": 90,
+          "x": 370
+        },
+        "props": {
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label_6"
+            },
+            "position": {
+              "basis": "18px"
+            },
+            "props": {
+              "alignVertical": "bottom",
+              "text": "Total Energy",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Tex_tiny"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_7"
+            },
+            "props": {
+              "alignVertical": "bottom",
+              "text": "during prod. hrs",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Tex_tiny"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_5"
+            },
+            "position": {
+              "basis": "31px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "custom.PartCounter": {
+                "binding": {
+                  "config": {
+                    "avoidScanClassValidation": true,
+                    "calculations": [
+                      "MinMax"
+                    ],
+                    "dateRange": {
+                      "endDate": "{../XYChart.custom.EndDateTime}",
+                      "startDate": "{../XYChart.custom.StartDateTime}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Calculations",
+                    "tags": "{this.custom.Energy2}",
+                    "valueFormat": "DATASET"
+                  },
+                  "type": "tag-history"
+                }
+              },
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "avoidScanClassValidation": true,
+                    "calculations": [
+                      "Range"
+                    ],
+                    "dateRange": {
+                      "endDate": "addDays({view.params.Date},1)",
+                      "startDate": "{view.params.Date}"
+                    },
+                    "enableValueCache": true,
+                    "ignoreBadQuality": false,
+                    "preventInterpolation": false,
+                    "returnFormat": "Calculations",
+                    "tags": "{/root.custom.EnergyRange}",
+                    "valueFormat": "DATASET"
+                  },
+                  "transforms": [
+                    {
+                      "expression": "{value}[0,2]",
+                      "type": "expression"
+                    }
+                  ],
+                  "type": "tag-history"
+                }
+              }
+            },
+            "props": {
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer",
+          "tooltip": {
+            "enabled": true,
+            "text": "Total energy consumed during the production hours.  This includes energy consumed when parts were being made, but also any energy consumed that was below the part-count power threshold."
+          }
+        },
+        "position": {
+          "height": 61,
+          "rotate": {
+            "anchor": "0% -12%"
+          },
+          "width": 90,
+          "x": 657,
+          "y": 1
+        },
+        "props": {
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "custom": {
+      "EnergyPerPart": [
+        {
+          "aggregate": "SimpleAverage",
+          "alias": "Energy",
+          "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/DashboardSettings/Production/Part Energy"
+        }
+      ],
+      "EnergyRange": [
+        {
+          "aggregate": "LastValue",
+          "alias": "Energy",
+          "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/Data/Totals/Energy/Total_PositiveEnergy"
+        }
+      ],
+      "OnDuration": [
+        {
+          "aggregate": "DurationOn",
+          "alias": "Ontime",
+          "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/DashboardSettings/Production/ProductionBooleanSimple"
+        }
+      ],
+      "OnOff": [
+        {
+          "aggregate": "LastValue",
+          "alias": "Status",
+          "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/DashboardSettings/Production/ProductionBooleanSimple"
+        }
+      ],
+      "PartCount": [
+        {
+          "aggregate": "CountOn",
+          "alias": "Prod Count",
+          "path": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/DashboardSettings/Production/Part Boolean"
+        }
+      ],
+      "ProductionEndTime": {
+        "$": [
+          "ts",
+          192,
+          1715365326964
+        ],
+        "$ts": 1715288408657
+      },
+      "ProductionStartTime": {
+        "$": [
+          "ts",
+          192,
+          1715365323253
+        ],
+        "$ts": 1715342419047
+      }
+    },
+    "meta": {
+      "contextMenu": {
+        "style": {
+          "backgroundColor": "#AAAAAA"
+        }
+      },
+      "name": "root"
+    },
+    "position": {
+      "x": -61,
+      "y": 11
+    },
+    "propConfig": {
+      "custom.Date": {
+        "binding": {
+          "config": {
+            "expression": "midnight({view.params.Date})"
+          },
+          "type": "expr"
+        }
+      },
+      "custom.EndDateTime": {
+        "binding": {
+          "config": {
+            "expression": "addMinutes(addHours({this.custom.Date},getHour24({this.custom.ProductionEndTime})),getMinute({this.custom.ProductionEndTime}))"
+          },
+          "type": "expr"
+        }
+      },
+      "custom.EnergyPerPartOutput": {
+        "binding": {
+          "config": {
+            "avoidScanClassValidation": true,
+            "calculations": [
+              "SimpleAverage"
+            ],
+            "dateRange": {
+              "endDate": "addDays({view.params.Date},1)",
+              "startDate": "{view.params.Date}"
+            },
+            "enableValueCache": true,
+            "ignoreBadQuality": false,
+            "preventInterpolation": false,
+            "returnFormat": "Calculations",
+            "tags": "{this.custom.EnergyPerPart}",
+            "valueFormat": "DATASET"
+          },
+          "type": "tag-history"
+        }
+      },
+      "custom.PartCountOutput": {
+        "binding": {
+          "config": {
+            "aggregate": "MinMax",
+            "avoidScanClassValidation": true,
+            "dateRange": {
+              "endDate": "addDays({view.params.Date},1)",
+              "startDate": "{view.params.Date}"
+            },
+            "enableValueCache": true,
+            "ignoreBadQuality": false,
+            "preventInterpolation": false,
+            "returnFormat": "Wide",
+            "returnSize": {
+              "numRows": "1",
+              "type": "FIXED"
+            },
+            "tags": "{this.custom.PartCount}",
+            "valueFormat": "DATASET"
+          },
+          "type": "tag-history"
+        }
+      },
+      "custom.ProducingPercent": {
+        "binding": {
+          "config": {
+            "avoidScanClassValidation": true,
+            "calculations": [
+              "DurationOn"
+            ],
+            "dateRange": {
+              "endDate": "addDays({view.params.Date},1)",
+              "startDate": "{view.params.Date}"
+            },
+            "enableValueCache": true,
+            "ignoreBadQuality": false,
+            "preventInterpolation": false,
+            "returnFormat": "Calculations",
+            "tags": "{this.custom.OnOff}",
+            "valueFormat": "DATASET"
+          },
+          "transforms": [
+            {
+              "expression": "{value}[0,2]/{this.custom.Seconds}",
+              "type": "expression"
+            }
+          ],
+          "type": "tag-history"
+        }
+      },
+      "custom.ProductionEndTime": {
+        "binding": {
+          "config": {
+            "fallbackDelay": 2.5,
+            "mode": "indirect",
+            "references": {
+              "tagpath": "{view.params.tagpath}"
+            },
+            "tagPath": "{tagpath}/DashboardSettings/Production/ProductionEndDatetime"
+          },
+          "enabled": false,
+          "type": "tag"
+        }
+      },
+      "custom.ProductionStartTime": {
+        "binding": {
+          "config": {
+            "fallbackDelay": 2.5,
+            "mode": "indirect",
+            "references": {
+              "tagpath": "{view.params.tagpath}"
+            },
+            "tagPath": "{tagpath}/DashboardSettings/Production/ProductionStartDatetime"
+          },
+          "enabled": false,
+          "type": "tag"
+        }
+      },
+      "custom.Seconds": {
+        "binding": {
+          "config": {
+            "expression": "secondsBetween({this.custom.StartDateTime},{this.custom.EndDateTime})"
+          },
+          "type": "expr"
+        }
+      },
+      "custom.StartDateTime": {
+        "binding": {
+          "config": {
+            "expression": "addMinutes(addHours({this.custom.Date},getHour24({this.custom.ProductionStartTime})),getMinute({this.custom.ProductionStartTime}))"
+          },
+          "type": "expr"
+        }
+      },
+      "custom.TotalProductionEnergy": {
+        "binding": {
+          "config": {
+            "avoidScanClassValidation": true,
+            "calculations": [
+              "Range"
+            ],
+            "dateRange": {
+              "endDate": "addDays({view.params.Date},1)",
+              "startDate": "{view.params.Date}"
+            },
+            "enableValueCache": true,
+            "ignoreBadQuality": false,
+            "preventInterpolation": false,
+            "returnFormat": "Calculations",
+            "tags": "{this.custom.EnergyRange}",
+            "valueFormat": "DATASET"
+          },
+          "type": "tag-history"
+        }
+      },
+      "props.style.backgroundColor": {
+        "binding": {
+          "config": {
+            "expression": "if(round(getDayOfYear({view.params.Date})/2,0)\u003dgetDayOfYear({view.params.Date})/2,\"#ECEFF6\",\"#D9D9D9\")"
+          },
+          "type": "expr"
+        }
+      }
+    },
+    "props": {
+      "style": {
+        "margin": 0,
+        "overflow": "hidden",
+        "overflowX": "hidden",
+        "overflowY": "hidden",
+        "padding": 0
+      }
+    },
+    "type": "ia.container.coord"
+  }
+}

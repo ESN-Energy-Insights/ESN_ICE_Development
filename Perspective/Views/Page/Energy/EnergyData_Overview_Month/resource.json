@@ -1,0 +1,17 @@
+{
+  "scope": "G",
+  "version": 1,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "thumbnail.png",
+    "view.json"
+  ],
+  "attributes": {
+    "lastModificationSignature": "4de99ce58539c7a206e7032de5c0d23ad100c2fe158ea48aa3b2f67b4eb311c5",
+    "lastModification": {
+      "actor": "luke.rector@lhpes.com",
+      "timestamp": "2024-09-30T20:50:45Z"
+    }
+  }
+}

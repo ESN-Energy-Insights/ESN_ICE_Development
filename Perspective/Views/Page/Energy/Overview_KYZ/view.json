@@ -1,0 +1,378 @@
+{
+  "custom": {},
+  "params": {
+    "fullPath": "[MQTT Engine]Edge Nodes/Opto22/EMK1-0001/Energy/Loads/ServiceMeter"
+  },
+  "propConfig": {
+    "params.fullPath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 971,
+      "width": 1178
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "basis": "50px"
+                },
+                "props": {
+                  "style": {
+                    "backgroundColor": "#808080",
+                    "boxShadow": "1px 1px 4px #2B2B2B",
+                    "color": "#FFFFFF",
+                    "fontSize": 20,
+                    "fontWeight": "bold",
+                    "margin": -5,
+                    "marginBottom": 5,
+                    "padding": 5
+                  },
+                  "text": "Asset Information"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Element2"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.value": {
+                    "binding": {
+                      "config": {
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "fullPath": "{view.params.fullPath}"
+                        },
+                        "tagPath": "{fullPath}/Properties/Service Meter Location"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "Location",
+                    "labelAlign": "left",
+                    "type": "string"
+                  },
+                  "path": "Templates/Elements/InfoElement",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              },
+              {
+                "meta": {
+                  "name": "Element3"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.value": {
+                    "binding": {
+                      "config": {
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "fullPath": "{view.params.fullPath}"
+                        },
+                        "tagPath": "{fullPath}/Properties/Install Date"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "Install Date",
+                    "labelAlign": "left",
+                    "type": "string"
+                  },
+                  "path": "Templates/Elements/InfoElement",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              },
+              {
+                "meta": {
+                  "name": "Element4"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.value": {
+                    "binding": {
+                      "config": {
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "fullPath": "{view.params.fullPath}"
+                        },
+                        "tagPath": "{fullPath}/Configuration/kWh per Pulse"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "kWh per Pulse",
+                    "labelAlign": "left"
+                  },
+                  "path": "Templates/Elements/InfoElement",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              }
+            ],
+            "meta": {
+              "name": "AssetInformation"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "borderBottomLeftRadius": 10,
+                "borderBottomRightRadius": 10,
+                "borderColor": "#808080",
+                "borderStyle": "solid",
+                "borderTopLeftRadius": 10,
+                "borderTopRightRadius": 10,
+                "boxShadow": "2px 2px 4px #808080",
+                "marginBottom": "20px",
+                "padding": 5
+              }
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "basis": "50px"
+                },
+                "props": {
+                  "style": {
+                    "backgroundColor": "#808080",
+                    "boxShadow": "1px 1px 4px #2B2B2B",
+                    "color": "#FFFFFF",
+                    "fontSize": 20,
+                    "fontWeight": "bold",
+                    "margin": -5,
+                    "marginBottom": 5,
+                    "padding": 5
+                  },
+                  "text": "Data"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Element2"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.tagPath": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.params.fullPath} + \"/Data/KW\""
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "KW",
+                    "labelAlign": "left"
+                  },
+                  "path": "Templates/Elements/InfoElementSL",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              },
+              {
+                "meta": {
+                  "name": "Element3"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.tagPath": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.params.fullPath} + \"/Data/KWh\""
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "KWh",
+                    "labelAlign": "left"
+                  },
+                  "path": "Templates/Elements/InfoElementSL",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              },
+              {
+                "meta": {
+                  "name": "Element4"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.tagPath": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.params.fullPath} + \"/Data/KWh15m\""
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "KW 15 Min",
+                    "labelAlign": "left"
+                  },
+                  "path": "Templates/Elements/InfoElementSL",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              },
+              {
+                "meta": {
+                  "name": "Element5"
+                },
+                "position": {
+                  "basis": "50px",
+                  "shrink": 0
+                },
+                "propConfig": {
+                  "props.params.tagPath": {
+                    "binding": {
+                      "config": {
+                        "expression": "{view.params.fullPath} + \"/Data/KWh24h\""
+                      },
+                      "type": "expr"
+                    }
+                  }
+                },
+                "props": {
+                  "params": {
+                    "fontSize": 16,
+                    "label": "KW 24 Hr",
+                    "labelAlign": "left"
+                  },
+                  "path": "Templates/Elements/InfoElementSL",
+                  "style": {
+                    "marginLeft": 10
+                  }
+                },
+                "type": "ia.display.view"
+              }
+            ],
+            "meta": {
+              "name": "Data"
+            },
+            "position": {
+              "shrink": 0
+            },
+            "props": {
+              "direction": "column",
+              "style": {
+                "borderBottomLeftRadius": 10,
+                "borderBottomRightRadius": 10,
+                "borderColor": "#808080",
+                "borderStyle": "solid",
+                "borderTopLeftRadius": 10,
+                "borderTopRightRadius": 10,
+                "boxShadow": "2px 2px 4px #808080",
+                "marginBottom": 10,
+                "padding": 5
+              }
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "Tab0"
+        },
+        "position": {
+          "shrink": 0
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "margin": 10,
+            "marginTop": 20,
+            "padding": 5,
+            "paddingLeft": 0,
+            "paddingRight": 0
+          }
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column"
+    },
+    "type": "ia.container.flex"
+  }
+}

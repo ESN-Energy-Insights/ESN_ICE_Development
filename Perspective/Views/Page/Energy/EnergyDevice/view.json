@@ -1,0 +1,347 @@
+{
+  "custom": {
+    "deviceType": "EMU",
+    "fullPath": "[ESN]Administrator/EdgeNodes/EMK1-0001/Loads/Compressor2"
+  },
+  "params": {
+    "device": "Compressor2",
+    "node": "EMK1-0001",
+    "typeId": "RIO-EMU-MQTT_v2"
+  },
+  "propConfig": {
+    "custom.deviceType": {
+      "binding": {
+        "config": {
+          "path": "view.params.typeId"
+        },
+        "transforms": [
+          {
+            "code": "\t# This lookup will need to be improved as more UDTs get created\n\tif \u0027EMU\u0027 in value:\n\t\treturn \u0027EMU\u0027\n\tif \u0027KYZ\u0027 in value:\n\t\treturn \u0027KYZ\u0027\n\t\t\t\n\treturn \u0027not found\u0027",
+            "type": "script"
+          }
+        ],
+        "type": "property"
+      },
+      "persistent": true
+    },
+    "custom.fullPath": {
+      "binding": {
+        "config": {
+          "struct": {
+            "device": "{view.params.device}",
+            "node": "{view.params.node}"
+          },
+          "waitOnAll": true
+        },
+        "transforms": [
+          {
+            "code": "\t\n\tfullPath \u003d self.session.custom.tagPrefix + \u0027/\u0027 + value.node + \u0027/Loads/\u0027 + value.device\n\treturn fullPath",
+            "type": "script"
+          }
+        ],
+        "type": "expr-struct"
+      },
+      "persistent": true
+    },
+    "params.device": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.feature": {
+      "paramDirection": "input"
+    },
+    "params.node": {
+      "paramDirection": "input",
+      "persistent": true
+    },
+    "params.tier1": {
+      "paramDirection": "input"
+    },
+    "params.tier2": {
+      "paramDirection": "input"
+    },
+    "params.typeId": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "width": 1100
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "Title"
+        },
+        "position": {
+          "basis": "56px",
+          "shrink": 0
+        },
+        "propConfig": {
+          "props.params.tagpath": {
+            "binding": {
+              "config": {
+                "path": "view.custom.fullPath"
+              },
+              "type": "property"
+            }
+          },
+          "props.params.text": {
+            "binding": {
+              "config": {
+                "path": "view.custom.fullPath"
+              },
+              "transforms": [
+                {
+                  "code": "\treturn value.split(\"/\")[len(value.split(\"/\"))-1]",
+                  "type": "script"
+                }
+              ],
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "params": {
+            "icon": "device_hub",
+            "needssettingbutton": true
+          },
+          "path": "Page/Embedded/Title"
+        },
+        "type": "ia.display.view"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Overview"
+            },
+            "propConfig": {
+              "props.params.fullPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.path": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.deviceType"
+                  },
+                  "transforms": [
+                    {
+                      "code": "\treturn \u0027Page/Energy/Overview_\u0027 + value",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "useDefaultViewHeight": true,
+              "useDefaultViewWidth": true
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "Energy Overview"
+            },
+            "position": {
+              "tabIndex": 1
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/EnergyData_Overview",
+              "useDefaultViewHeight": true,
+              "useDefaultViewWidth": true
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "Power Overview"
+            },
+            "position": {
+              "tabIndex": 2
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/PowerData_Overview",
+              "useDefaultViewHeight": true,
+              "useDefaultViewWidth": true
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "Power Quality"
+            },
+            "position": {
+              "tabIndex": 3
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/PowerQualityDetails",
+              "useDefaultViewHeight": true,
+              "useDefaultViewWidth": true
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "Production"
+            },
+            "position": {
+              "tabIndex": 4
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/ProductionData_Overview v4",
+              "useDefaultViewHeight": true,
+              "useDefaultViewWidth": true
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "StartupProfile"
+            },
+            "position": {
+              "tabIndex": 5
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/Startup Profile"
+            },
+            "type": "ia.display.view"
+          },
+          {
+            "meta": {
+              "name": "MonthlyEnergy"
+            },
+            "position": {
+              "tabIndex": 6
+            },
+            "propConfig": {
+              "props.params.tagPath": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.fullPath"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "path": "Page/Energy/EnergyData_Overview_Month"
+            },
+            "type": "ia.display.view"
+          }
+        ],
+        "meta": {
+          "name": "TabContainer"
+        },
+        "position": {
+          "basis": "300px",
+          "grow": 1
+        },
+        "propConfig": {
+          "props.tabs": {
+            "binding": {
+              "config": {
+                "path": "view.custom.deviceType"
+              },
+              "transforms": [
+                {
+                  "code": "\t#if self.session.custom.companyID \u003d\u003d \u0027Opto22\u0027:\n\t\t\n\tif value \u003d\u003d \"EMU\":\n\t\treturn [\"Overview\", \"Energy\", \"Power\", \"Power Quality\", \"Production\",\"Startup Power\", \"Monthly\"]\n\telse:\n\t\treturn [\"Overview\"]",
+                  "type": "script"
+                }
+              ],
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "menuType": "modern",
+          "tabSize": {
+            "height": 45,
+            "width": 95
+          },
+          "tabStyle": {
+            "active": {
+              "fontSize": 16,
+              "whiteSpace": "pre-line"
+            },
+            "inactive": {
+              "fontSize": 16,
+              "whiteSpace": "pre-line"
+            }
+          }
+        },
+        "type": "ia.container.tab"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "classes": "Page/Page"
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}
