@@ -1,0 +1,57 @@
+{
+  "custom": {},
+  "params": {},
+  "props": {
+    "defaultSize": {
+      "width": 250
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "AlarmJournalTable"
+        },
+        "position": {
+          "basis": "800px",
+          "grow": 1
+        },
+        "propConfig": {
+          "props.dateRange.historical.endDate": {
+            "binding": {
+              "config": {
+                "expression": "now()"
+              },
+              "type": "expr"
+            }
+          },
+          "props.dateRange.historical.startDate": {
+            "binding": {
+              "config": {
+                "expression": "addDays(now(),-10)"
+              },
+              "type": "expr"
+            }
+          }
+        },
+        "props": {
+          "dateRange": {
+            "historical": {},
+            "mode": "historical",
+            "realtime": {
+              "interval": 24
+            }
+          }
+        },
+        "type": "ia.display.alarmjournaltable"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column"
+    },
+    "type": "ia.container.flex"
+  }
+}
