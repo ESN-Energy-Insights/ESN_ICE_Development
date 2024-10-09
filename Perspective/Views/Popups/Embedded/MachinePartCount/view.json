@@ -1,0 +1,210 @@
+{
+  "custom": {},
+  "params": {
+    "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1"
+  },
+  "propConfig": {
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 141,
+      "width": 499
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "196px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Part Count Time Range:"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Low"
+                },
+                "position": {
+                  "basis": "499px"
+                },
+                "props": {
+                  "text": "Note: The parts are counted over the same time range as is defined in \"Production\" hours.",
+                  "textStyle": {
+                    "classes": "All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_0"
+            },
+            "position": {
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "196px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Part Count Threshold"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_2"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "197px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Part Power Threshold",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Low"
+                },
+                "position": {
+                  "basis": "38px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  },
+                  "text": "Level",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Text_Small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "NumericEntryField"
+                },
+                "position": {
+                  "basis": "63px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/Production/PartPowerThreshold"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "containerStyle": {
+                    "marginBottom": 10,
+                    "marginTop": 10
+                  },
+                  "style": {
+                    "classes": "All_Text/Input_Text"
+                  }
+                },
+                "type": "ia.input.numeric-entry-field"
+              },
+              {
+                "meta": {
+                  "name": "Units"
+                },
+                "position": {
+                  "basis": "24px"
+                },
+                "props": {
+                  "text": "kW",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_1"
+            },
+            "position": {
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "height": 140,
+          "width": 499
+        },
+        "props": {
+          "alignContent": "flex-start",
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "type": "ia.container.coord"
+  }
+}

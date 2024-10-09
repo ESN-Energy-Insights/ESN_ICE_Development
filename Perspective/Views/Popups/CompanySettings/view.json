@@ -1,0 +1,301 @@
+{
+  "custom": {},
+  "params": {
+    "tagpath": "[ESN]Opto22"
+  },
+  "propConfig": {
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 510
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Label"
+            },
+            "position": {
+              "basis": "32px"
+            },
+            "props": {
+              "text": "Company Settings"
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "basis": "38px"
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "classes": "All_Text/Header_Text",
+            "paddingLeft": 10
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "meta": {
+          "name": "Accordion"
+        },
+        "position": {
+          "basis": "760px"
+        },
+        "propConfig": {
+          "props.items[0].body.viewParams.tagpath": {
+            "binding": {
+              "config": {
+                "path": "view.params.tagpath"
+              },
+              "type": "property"
+            }
+          },
+          "props.items[1].body.viewParams.tagpath": {
+            "binding": {
+              "config": {
+                "path": "view.params.tagpath"
+              },
+              "type": "property"
+            }
+          },
+          "props.items[2].body.viewParams.tagpath": {
+            "binding": {
+              "config": {
+                "path": "view.params.tagpath"
+              },
+              "type": "property"
+            }
+          },
+          "props.items[3].body.viewParams.tagpath": {
+            "binding": {
+              "config": {
+                "path": "view.params.tagpath"
+              },
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "items": [
+            {
+              "body": {
+                "height": "auto",
+                "style": {
+                  "classes": "",
+                  "margin": "16px"
+                },
+                "useDefaultViewHeight": false,
+                "useDefaultViewWidth": false,
+                "viewParams": {},
+                "viewPath": "Popups/Shifts"
+              },
+              "expanded": false,
+              "header": {
+                "content": {
+                  "style": {
+                    "classes": "All_Text/Accordian_Text"
+                  },
+                  "text": "Shifts",
+                  "type": "text",
+                  "useDefaultViewHeight": false,
+                  "useDefaultViewWidth": false,
+                  "viewParams": {},
+                  "viewPath": ""
+                },
+                "height": "40px",
+                "reverse": false,
+                "style": {
+                  "classes": ""
+                },
+                "toggle": {
+                  "collapsedIcon": {
+                    "color": "",
+                    "path": "material/expand_more",
+                    "style": {
+                      "classes": ""
+                    }
+                  },
+                  "enabled": true,
+                  "expandedIcon": {
+                    "color": "",
+                    "path": "material/expand_less",
+                    "style": {
+                      "classes": ""
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "body": {
+                "height": "auto",
+                "style": {
+                  "classes": "",
+                  "margin": "16px"
+                },
+                "useDefaultViewHeight": false,
+                "useDefaultViewWidth": false,
+                "viewParams": {},
+                "viewPath": "Popups/Weather"
+              },
+              "expanded": false,
+              "header": {
+                "content": {
+                  "style": {
+                    "classes": "All_Text/Accordian_Text"
+                  },
+                  "text": "Weather",
+                  "type": "text",
+                  "useDefaultViewHeight": false,
+                  "useDefaultViewWidth": false,
+                  "viewParams": {},
+                  "viewPath": ""
+                },
+                "height": "40px",
+                "reverse": false,
+                "style": {
+                  "classes": ""
+                },
+                "toggle": {
+                  "collapsedIcon": {
+                    "color": "",
+                    "path": "material/expand_more",
+                    "style": {
+                      "classes": ""
+                    }
+                  },
+                  "enabled": true,
+                  "expandedIcon": {
+                    "color": "",
+                    "path": "material/expand_less",
+                    "style": {
+                      "classes": ""
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "body": {
+                "height": "auto",
+                "style": {
+                  "classes": "",
+                  "margin": "16px"
+                },
+                "useDefaultViewHeight": false,
+                "useDefaultViewWidth": false,
+                "viewParams": {},
+                "viewPath": "Popups/ElectricBill"
+              },
+              "expanded": false,
+              "header": {
+                "content": {
+                  "style": {
+                    "classes": "All_Text/Accordian_Text"
+                  },
+                  "text": "Electric Bill Data",
+                  "type": "text",
+                  "useDefaultViewHeight": false,
+                  "useDefaultViewWidth": false,
+                  "viewParams": {},
+                  "viewPath": ""
+                },
+                "height": "40px",
+                "reverse": false,
+                "style": {
+                  "classes": ""
+                },
+                "toggle": {
+                  "collapsedIcon": {
+                    "color": "",
+                    "path": "material/expand_more",
+                    "style": {
+                      "classes": ""
+                    }
+                  },
+                  "enabled": true,
+                  "expandedIcon": {
+                    "color": "",
+                    "path": "material/expand_less",
+                    "style": {
+                      "classes": ""
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "body": {
+                "height": "auto",
+                "style": {
+                  "classes": "",
+                  "margin": "16px"
+                },
+                "useDefaultViewHeight": false,
+                "useDefaultViewWidth": false,
+                "viewParams": {},
+                "viewPath": "Popups/Embedded/ExpectedMeterPeak"
+              },
+              "expanded": false,
+              "header": {
+                "content": {
+                  "style": {
+                    "classes": ""
+                  },
+                  "text": "Expected Monthly Peak",
+                  "type": "text",
+                  "useDefaultViewHeight": false,
+                  "useDefaultViewWidth": false,
+                  "viewParams": {},
+                  "viewPath": ""
+                },
+                "height": "40px",
+                "reverse": false,
+                "style": {
+                  "classes": ""
+                },
+                "toggle": {
+                  "collapsedIcon": {
+                    "color": "",
+                    "path": "material/expand_more",
+                    "style": {
+                      "classes": ""
+                    }
+                  },
+                  "enabled": true,
+                  "expandedIcon": {
+                    "color": "",
+                    "path": "material/expand_less",
+                    "style": {
+                      "classes": ""
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "type": "ia.display.accordion"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "direction": "column"
+    },
+    "type": "ia.container.flex"
+  }
+}

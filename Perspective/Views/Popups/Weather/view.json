@@ -1,0 +1,87 @@
+{
+  "custom": {},
+  "params": {
+    "tagpath": "[ESN]Opto22"
+  },
+  "propConfig": {
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 50,
+      "width": 767
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "meta": {
+          "name": "Label",
+          "tooltip": {
+            "enabled": true
+          }
+        },
+        "position": {
+          "height": 53,
+          "rotate": {
+            "anchor": "-52% 25%"
+          },
+          "width": 400,
+          "x": 22,
+          "y": -1
+        },
+        "props": {
+          "text": "Put your nearest weather station ID here",
+          "textStyle": {
+            "classes": "All_Text/Base_Text"
+          }
+        },
+        "type": "ia.display.label"
+      },
+      {
+        "meta": {
+          "name": "TextField"
+        },
+        "position": {
+          "height": 32,
+          "width": 150,
+          "x": 501,
+          "y": 9.5
+        },
+        "propConfig": {
+          "props.text": {
+            "binding": {
+              "config": {
+                "bidirectional": true,
+                "fallbackDelay": 2.5,
+                "mode": "indirect",
+                "references": {
+                  "tagpath": "{view.params.tagpath}"
+                },
+                "tagPath": "{tagpath}/Company/Weather/Location"
+              },
+              "type": "tag"
+            }
+          }
+        },
+        "type": "ia.input.text-field"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "position": {
+      "x": 5.5,
+      "y": -10
+    },
+    "props": {
+      "style": {
+        "overflow": "hidden"
+      }
+    },
+    "type": "ia.container.coord"
+  }
+}

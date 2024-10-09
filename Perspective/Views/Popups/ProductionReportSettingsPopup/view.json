@@ -1,0 +1,558 @@
+{
+  "custom": {},
+  "params": {},
+  "props": {
+    "defaultSize": {
+      "height": 502,
+      "width": 360
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Daily Times Label"
+                },
+                "position": {
+                  "basis": "270px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text",
+                    "fontSize": "15px",
+                    "fontWeight": "bold",
+                    "marginLeft": "5px",
+                    "paddingLeft": "10px",
+                    "textAlign": "left"
+                  },
+                  "text": "Power Level Minimum"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Input 5"
+            },
+            "position": {
+              "basis": "25px"
+            },
+            "props": {
+              "alignContent": "center",
+              "style": {
+                "marginTop": "10px"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "High Label"
+                    },
+                    "position": {
+                      "basis": "20px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontFamily": "Verdana",
+                        "fontSize": "12px",
+                        "marginLeft": "15px"
+                      },
+                      "text": "for \u0027On\u0027"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "Voltage High Input"
+                    },
+                    "position": {
+                      "basis": "32px"
+                    },
+                    "props": {
+                      "spinner": {
+                        "enabled": false
+                      },
+                      "style": {
+                        "classes": "Backgrounds/inputboxes"
+                      }
+                    },
+                    "type": "ia.input.numeric-entry-field"
+                  }
+                ],
+                "meta": {
+                  "name": "Voltage High Container"
+                },
+                "position": {
+                  "basis": "100px"
+                },
+                "props": {
+                  "direction": "column"
+                },
+                "type": "ia.container.flex"
+              }
+            ],
+            "meta": {
+              "name": "Voltage Threshold Inputs Container"
+            },
+            "position": {
+              "basis": "40px",
+              "grow": 1
+            },
+            "props": {
+              "style": {
+                "borderStyle": "none",
+                "overflow": "hidden"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Daily Times Label"
+                },
+                "position": {
+                  "basis": "270px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text",
+                    "fontSize": "15px",
+                    "fontWeight": "bold",
+                    "marginLeft": "5px",
+                    "paddingLeft": "10px",
+                    "textAlign": "left"
+                  },
+                  "text": "Power Level Maximum"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Input 6"
+            },
+            "position": {
+              "basis": "25px"
+            },
+            "props": {
+              "alignContent": "center",
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "High Label"
+                    },
+                    "position": {
+                      "basis": "20px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontFamily": "Verdana",
+                        "fontSize": "12px",
+                        "marginLeft": "15px"
+                      },
+                      "text": "for \u0027Off\u0027"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "Voltage High Input"
+                    },
+                    "position": {
+                      "basis": "32px"
+                    },
+                    "props": {
+                      "spinner": {
+                        "enabled": false
+                      },
+                      "style": {
+                        "classes": "Backgrounds/inputboxes"
+                      }
+                    },
+                    "type": "ia.input.numeric-entry-field"
+                  }
+                ],
+                "meta": {
+                  "name": "Voltage High Container"
+                },
+                "position": {
+                  "basis": "100px"
+                },
+                "props": {
+                  "direction": "column"
+                },
+                "type": "ia.container.flex"
+              }
+            ],
+            "meta": {
+              "name": "Voltage Threshold Inputs Container_0"
+            },
+            "position": {
+              "basis": "40px",
+              "grow": 1
+            },
+            "props": {
+              "style": {
+                "borderStyle": "none",
+                "overflow": "hidden"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Daily Times Label"
+                },
+                "position": {
+                  "basis": "270px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text",
+                    "fontSize": "15px",
+                    "fontWeight": "bold",
+                    "marginLeft": "5px",
+                    "paddingLeft": "10px",
+                    "textAlign": "left"
+                  },
+                  "text": "Delay Time"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Input 7"
+            },
+            "position": {
+              "basis": "25px"
+            },
+            "props": {
+              "alignContent": "center",
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "High Label"
+                    },
+                    "position": {
+                      "basis": "20px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontFamily": "Verdana",
+                        "fontSize": "12px",
+                        "marginLeft": "15px"
+                      },
+                      "text": "\u0027On\u0027 to \u0027Off\u0027"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "Voltage High Input"
+                    },
+                    "position": {
+                      "basis": "32px"
+                    },
+                    "props": {
+                      "spinner": {
+                        "enabled": false
+                      },
+                      "style": {
+                        "classes": "Backgrounds/inputboxes"
+                      }
+                    },
+                    "type": "ia.input.numeric-entry-field"
+                  }
+                ],
+                "meta": {
+                  "name": "Voltage High Container"
+                },
+                "position": {
+                  "basis": "100px"
+                },
+                "props": {
+                  "direction": "column"
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "Label"
+                },
+                "position": {
+                  "basis": "77px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text",
+                    "marginLeft": "5px"
+                  },
+                  "text": "minutes"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Voltage Threshold Inputs Container_1"
+            },
+            "position": {
+              "basis": "40px",
+              "grow": 1
+            },
+            "props": {
+              "style": {
+                "borderStyle": "none",
+                "overflow": "hidden"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Daily Times Label"
+                },
+                "position": {
+                  "basis": "270px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text",
+                    "fontSize": "15px",
+                    "fontWeight": "bold",
+                    "marginLeft": "5px",
+                    "paddingLeft": "10px",
+                    "textAlign": "left"
+                  },
+                  "text": "Expected Production"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Input 4"
+            },
+            "position": {
+              "basis": "25px"
+            },
+            "props": {
+              "alignContent": "center",
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Today Start Label"
+                    },
+                    "position": {
+                      "basis": "25px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontFamily": "Verdana",
+                        "fontSize": "12px",
+                        "marginLeft": "15px"
+                      },
+                      "text": "Start Time"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "Today Start Input"
+                    },
+                    "position": {
+                      "basis": "32px"
+                    },
+                    "props": {
+                      "formattedValue": null,
+                      "pickerType": "time",
+                      "style": {
+                        "marginTop": "15px"
+                      }
+                    },
+                    "type": "ia.input.date-time-input"
+                  }
+                ],
+                "meta": {
+                  "name": "Today Start Container"
+                },
+                "position": {
+                  "basis": "160px"
+                },
+                "props": {
+                  "direction": "column"
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Today End Label"
+                    },
+                    "position": {
+                      "basis": "25px"
+                    },
+                    "props": {
+                      "style": {
+                        "fontFamily": "Verdana",
+                        "fontSize": "12px",
+                        "marginLeft": "15px"
+                      },
+                      "text": "End Time"
+                    },
+                    "type": "ia.display.label"
+                  },
+                  {
+                    "meta": {
+                      "name": "Today End Input"
+                    },
+                    "position": {
+                      "basis": "32px"
+                    },
+                    "props": {
+                      "formattedValue": null,
+                      "pickerType": "time",
+                      "style": {
+                        "marginTop": "15px"
+                      }
+                    },
+                    "type": "ia.input.date-time-input"
+                  }
+                ],
+                "meta": {
+                  "name": "Today End Container"
+                },
+                "position": {
+                  "basis": "160px"
+                },
+                "props": {
+                  "direction": "column"
+                },
+                "type": "ia.container.flex"
+              }
+            ],
+            "meta": {
+              "name": "Today Startup Inputs"
+            },
+            "position": {
+              "basis": "100px"
+            },
+            "props": {
+              "style": {
+                "borderStyle": "none"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "Production Report Settings Container"
+        },
+        "position": {
+          "basis": "260px",
+          "height": 425,
+          "width": 348,
+          "x": -37
+        },
+        "props": {
+          "direction": "column",
+          "style": {
+            "backgroundColor": "#FFFFFF",
+            "borderBottomLeftRadius": "15px",
+            "borderBottomRightRadius": "15px",
+            "borderStyle": "none",
+            "borderTopLeftRadius": "15px",
+            "borderTopRightRadius": "15px",
+            "marginLeft": "30px"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "events": {
+          "component": {
+            "onActionPerformed": {
+              "config": {
+                "script": "\tsystem.perspective.closePopup(\u002735SPkugW\u0027)"
+              },
+              "scope": "G",
+              "type": "script"
+            }
+          }
+        },
+        "meta": {
+          "name": "Button"
+        },
+        "position": {
+          "height": 40,
+          "width": 130,
+          "x": 110,
+          "y": 448
+        },
+        "props": {
+          "style": {
+            "backgroundColor": "#D4D4D4",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderStyle": "none",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "classes": "All_Text/Base_Text"
+          },
+          "text": "Done"
+        },
+        "type": "ia.input.button"
+      }
+    ],
+    "custom": {
+      "emunum": 0
+    },
+    "meta": {
+      "name": "root"
+    },
+    "props": {
+      "style": {
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "type": "ia.container.coord"
+  }
+}

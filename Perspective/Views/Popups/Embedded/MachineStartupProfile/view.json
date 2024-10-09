@@ -1,0 +1,470 @@
+{
+  "custom": {},
+  "params": {
+    "tagpath": "[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1"
+  },
+  "propConfig": {
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 320,
+      "width": 499
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "196px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Startup Time:"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Low"
+                },
+                "position": {
+                  "basis": "329px"
+                },
+                "props": {
+                  "text": "Begin Looking for Machine Startup at:",
+                  "textStyle": {
+                    "classes": "All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "DateTimeInput"
+                },
+                "position": {
+                  "basis": "170px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/StartupProfile/StartupProfileStartTime"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "formattedValue": "Mar 1, 2024 12:00 AM",
+                  "pickerType": "time"
+                },
+                "type": "ia.input.date-time-input"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_0"
+            },
+            "position": {
+              "basis": "90px",
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "196px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Startup Definition"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_2"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "414.1px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Startup Power Threshold",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "NumericEntryField"
+                },
+                "position": {
+                  "basis": "63px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/StartupProfile/StartupPower"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "containerStyle": {
+                    "marginBottom": 10,
+                    "marginTop": 10
+                  },
+                  "style": {
+                    "classes": "All_Text/Input_Text"
+                  }
+                },
+                "type": "ia.input.numeric-entry-field"
+              },
+              {
+                "meta": {
+                  "name": "Units"
+                },
+                "position": {
+                  "basis": "24px"
+                },
+                "props": {
+                  "text": "kW",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_1"
+            },
+            "position": {
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "136.5px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Time of Interest:",
+                  "textStyle": {
+                    "classes": "All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Low"
+                },
+                "position": {
+                  "basis": "84px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  },
+                  "text": "Lookback",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Text_Small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "NumericEntryField"
+                },
+                "position": {
+                  "basis": "56px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/StartupProfile/StartupSecBack"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "containerStyle": {
+                    "marginBottom": 10,
+                    "marginTop": 10
+                  },
+                  "style": {
+                    "classes": "All_Text/Input_Text"
+                  }
+                },
+                "type": "ia.input.numeric-entry-field"
+              },
+              {
+                "meta": {
+                  "name": "Units"
+                },
+                "position": {
+                  "basis": "24px"
+                },
+                "props": {
+                  "text": "s",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Delay"
+                },
+                "position": {
+                  "basis": "168px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  },
+                  "text": "Startup Duration",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "NumericEntryField_0"
+                },
+                "position": {
+                  "basis": "59px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/StartupProfile/StartupSecBack"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "containerStyle": {
+                    "marginBottom": 10,
+                    "marginTop": 10
+                  },
+                  "style": {
+                    "classes": "All_Text/Input_Text"
+                  }
+                },
+                "type": "ia.input.numeric-entry-field"
+              },
+              {
+                "meta": {
+                  "name": "Units2"
+                },
+                "position": {
+                  "basis": "14px"
+                },
+                "props": {
+                  "text": "s",
+                  "textStyle": {
+                    "classes": "All_Text/Input_Label_Text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_3"
+            },
+            "position": {
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Measurement"
+                },
+                "position": {
+                  "basis": "196px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Base_Text"
+                  },
+                  "text": "Reference Startup"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_4"
+            },
+            "position": {
+              "basis": "35px"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Low"
+                },
+                "position": {
+                  "basis": "329px"
+                },
+                "props": {
+                  "text": "Compare to a startup curve known to be good on:",
+                  "textStyle": {
+                    "classes": "All_Text/Input_units_text_small"
+                  }
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "DateTimeInput"
+                },
+                "position": {
+                  "basis": "170px"
+                },
+                "propConfig": {
+                  "props.value": {
+                    "binding": {
+                      "config": {
+                        "bidirectional": true,
+                        "fallbackDelay": 2.5,
+                        "mode": "indirect",
+                        "references": {
+                          "tagpath": "{view.params.tagpath}"
+                        },
+                        "tagPath": "{tagpath}/DashboardSettings/StartupProfile/StartupProfileRefDate"
+                      },
+                      "type": "tag"
+                    }
+                  }
+                },
+                "props": {
+                  "format": "MM/DD/YY",
+                  "formattedValue": "04/09/24",
+                  "pickerType": "date"
+                },
+                "type": "ia.input.date-time-input"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_5"
+            },
+            "position": {
+              "grow": 1
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "height": "300px",
+          "width": "480px",
+          "x": "10px",
+          "y": "10px"
+        },
+        "props": {
+          "alignContent": "flex-start",
+          "direction": "column",
+          "justify": "flex-end"
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "type": "ia.container.coord"
+  }
+}

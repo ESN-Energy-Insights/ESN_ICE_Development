@@ -1,0 +1,268 @@
+{
+  "custom": {},
+  "params": {
+    "tagpath": "[ESN]Opto22"
+  },
+  "propConfig": {
+    "params.tagpath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 440,
+      "width": 767
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "meta": {
+                      "name": "Label"
+                    },
+                    "position": {
+                      "basis": "200px"
+                    },
+                    "props": {
+                      "style": {
+                        "classes": "All_Text/Base_Text"
+                      },
+                      "text": "Monthly Peak"
+                    },
+                    "type": "ia.display.label"
+                  }
+                ],
+                "meta": {
+                  "name": "FlexContainer"
+                },
+                "position": {
+                  "basis": "58px"
+                },
+                "props": {
+                  "style": {
+                    "classes": "All_Text/Header_Text",
+                    "marginLeft": 10,
+                    "paddingLeft": 10
+                  }
+                },
+                "type": "ia.container.flex"
+              },
+              {
+                "meta": {
+                  "name": "FlexRepeater"
+                },
+                "position": {
+                  "basis": "377px"
+                },
+                "propConfig": {
+                  "props.instances[0].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[10].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[11].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[1].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[2].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[3].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[4].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[5].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[6].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[7].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[8].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  },
+                  "props.instances[9].settings.tagpath": {
+                    "binding": {
+                      "config": {
+                        "path": "view.params.tagpath"
+                      },
+                      "type": "property"
+                    }
+                  }
+                },
+                "props": {
+                  "direction": "column",
+                  "instances": [
+                    {
+                      "settings": {
+                        "MonthRow": 0
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 1
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 2
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 3
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 4
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 5
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 6
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 7
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 8
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 9
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 10
+                      }
+                    },
+                    {
+                      "settings": {
+                        "MonthRow": 11
+                      }
+                    }
+                  ],
+                  "path": "Popups/Embedded/ExpectedPeaksMonths"
+                },
+                "type": "ia.display.flex-repeater"
+              }
+            ],
+            "meta": {
+              "name": "FlexContainer_0"
+            },
+            "position": {
+              "basis": "410px"
+            },
+            "props": {
+              "direction": "column"
+            },
+            "type": "ia.container.flex"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "height": 470,
+          "width": 767,
+          "x": -0.5
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "position": {
+      "x": 5.5,
+      "y": -10
+    },
+    "props": {
+      "style": {
+        "overflow": "hidden"
+      }
+    },
+    "type": "ia.container.coord"
+  }
+}
