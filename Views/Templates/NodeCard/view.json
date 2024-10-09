@@ -1,0 +1,486 @@
+{
+  "custom": {
+    "Loads": [],
+    "Node Info": [
+      null
+    ],
+    "Online": null,
+    "isCollapsed": false,
+    "mqttPath": "[MQTT Engine]Edge Nodes/Administrator/Groov1"
+  },
+  "params": {
+    "fullPath": "[ESN]BlueRidge/EdgeNodes/Groov1"
+  },
+  "propConfig": {
+    "custom.Loads": {
+      "binding": {
+        "config": {
+          "path": "view.custom.mqttPath"
+        },
+        "transforms": [
+          {
+            "code": "\n\tresults \u003d system.tag.browse(value + \"/Energy/Loads\")\n\n\tfinal \u003d []\n\tfor d in results:\n\t\tpath \u003d str(d[\u0027fullPath\u0027])#.replace(\"/Energy/\",\"/\")\n\t\tdevice \u003d {\"fullPath\":path,\"typeId\":d[\u0027typeId\u0027]}\n\t\tfinal.append(device)\n\treturn final",
+            "type": "script"
+          }
+        ],
+        "type": "property"
+      },
+      "persistent": true
+    },
+    "custom.Online": {
+      "binding": {
+        "config": {
+          "fallbackDelay": 2.5,
+          "mode": "indirect",
+          "references": {
+            "fullPath": "{view.custom.mqttPath}"
+          },
+          "tagPath": "{fullPath}/Node Info/Online"
+        },
+        "type": "tag"
+      },
+      "persistent": true
+    },
+    "custom.isCollapsed": {
+      "persistent": true
+    },
+    "custom.mqttPath": {
+      "binding": {
+        "config": {
+          "path": "view.params.fullPath"
+        },
+        "transforms": [
+          {
+            "code": "\tcompany \u003d self.session.custom.companyID\n\tedgeNode \u003d value.split(\"/\")[len(value.split(\"/\"))-1]\n\tmqttPath \u003d \"[MQTT Engine]Edge Nodes/\" + company + \"/\" + edgeNode\n\treturn mqttPath",
+            "type": "script"
+          }
+        ],
+        "type": "property"
+      },
+      "persistent": true
+    },
+    "custom[\u0027Node Info\u0027]": {
+      "binding": {
+        "config": {
+          "path": "view.custom.mqttPath"
+        },
+        "transforms": [
+          {
+            "code": "\treturn system.tag.readBlocking(value + \".jsonValues\")",
+            "type": "script"
+          }
+        ],
+        "type": "property"
+      }
+    },
+    "params.fullPath": {
+      "paramDirection": "input",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": "auto",
+      "width": 804
+    },
+    "dropConfig": {
+      "udts": [
+        {
+          "action": "path",
+          "param": "path",
+          "type": "Energy Monitoring UDTs/RIO-EMU-MQTT_v2"
+        }
+      ]
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "draggable": false,
+                    "id": "nodeInfoPopup",
+                    "modal": true,
+                    "overlayDismiss": false,
+                    "resizable": false,
+                    "showCloseIcon": false,
+                    "type": "open",
+                    "viewParams": {
+                      "fullPath": "{view.params.fullPath}"
+                    },
+                    "viewPath": "Popups/NodeInfo",
+                    "viewportBound": false
+                  },
+                  "scope": "C",
+                  "type": "popup"
+                }
+              }
+            },
+            "meta": {
+              "name": "btnInfo",
+              "tooltip": {
+                "enabled": true,
+                "text": "Node Info"
+              }
+            },
+            "position": {
+              "basis": "60px"
+            },
+            "props": {
+              "image": {
+                "icon": {
+                  "path": "material/info"
+                }
+              },
+              "primary": false,
+              "style": {
+                "backgroundColor": "#FFFFFF00",
+                "borderStyle": "none",
+                "color": "2B2B2B",
+                "margin": 5
+              },
+              "text": ""
+            },
+            "type": "ia.input.button"
+          },
+          {
+            "meta": {
+              "name": "label"
+            },
+            "position": {
+              "basis": "683px",
+              "grow": 1
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "path": "view.params.fullPath"
+                  },
+                  "transforms": [
+                    {
+                      "code": "\tpath \u003d value.split(\u0027/\u0027)\n\treturn path[len(path)-1]",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "color": "2B2B2B",
+                "fontSize": 18,
+                "fontWeight": "bold",
+                "textAlign": "center"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "events": {
+              "dom": {
+                "onClick": {
+                  "config": {
+                    "script": "\tself.view.custom.isCollapsed \u003d not(self.view.custom.isCollapsed)"
+                  },
+                  "scope": "G",
+                  "type": "script"
+                }
+              }
+            },
+            "meta": {
+              "name": "btnCollapse",
+              "tooltip": {
+                "text": "Collapse"
+              }
+            },
+            "position": {
+              "basis": "60px"
+            },
+            "propConfig": {
+              "props.image.icon.path": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.isCollapsed"
+                  },
+                  "transforms": [
+                    {
+                      "fallback": null,
+                      "inputType": "scalar",
+                      "mappings": [
+                        {
+                          "input": true,
+                          "output": "material/keyboard_arrow_up"
+                        },
+                        {
+                          "input": false,
+                          "output": "material/keyboard_arrow_down"
+                        }
+                      ],
+                      "outputType": "scalar",
+                      "type": "map"
+                    }
+                  ],
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "image": {
+                "icon": {}
+              },
+              "primary": false,
+              "style": {
+                "backgroundColor": "#FFFFFF00",
+                "borderStyle": "none",
+                "color": "2B2B2B",
+                "margin": 5
+              },
+              "text": ""
+            },
+            "type": "ia.input.button"
+          }
+        ],
+        "meta": {
+          "name": "Header"
+        },
+        "position": {
+          "basis": "50px",
+          "shrink": 0
+        },
+        "propConfig": {
+          "props.style.backgroundColor": {
+            "binding": {
+              "config": {
+                "path": "view.custom.Online"
+              },
+              "transforms": [
+                {
+                  "fallback": "#D1EC0E",
+                  "inputType": "scalar",
+                  "mappings": [
+                    {
+                      "input": true,
+                      "output": "#04D182"
+                    },
+                    {
+                      "input": false,
+                      "output": "#FF6B72"
+                    }
+                  ],
+                  "outputType": "scalar",
+                  "type": "map"
+                }
+              ],
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "style": {
+            "boxShadow": "0px 2px 4px #808080"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "lblOnline"
+            },
+            "position": {
+              "basis": "50px"
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "path": "view.custom.Online"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "fallbackDelay": 2.5,
+                    "mode": "indirect",
+                    "references": {
+                      "fullPath": "{view.params.fullPath}\t"
+                    },
+                    "tagPath": "{fullPath}/Node Info/Online DateTime"
+                  },
+                  "transforms": [
+                    {
+                      "code": "\treturn \"Online Since: \" + str(value)",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "tag"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "overflow": "visible"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "lblOffline"
+            },
+            "position": {
+              "basis": "50px"
+            },
+            "propConfig": {
+              "position.display": {
+                "binding": {
+                  "config": {
+                    "expression": "!{view.custom.Online}"
+                  },
+                  "type": "expr"
+                }
+              },
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "fallbackDelay": 2.5,
+                    "mode": "indirect",
+                    "references": {
+                      "fullPath": "{view.params.fullPath}"
+                    },
+                    "tagPath": "{fullPath}/Node Info/Offline DateTime"
+                  },
+                  "transforms": [
+                    {
+                      "code": "\treturn \"Offline Since: \" + str(value)",
+                      "type": "script"
+                    }
+                  ],
+                  "type": "tag"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "overflow": "visible"
+              }
+            },
+            "type": "ia.display.label"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer_0"
+        },
+        "position": {
+          "basis": "31px"
+        },
+        "props": {
+          "alignItems": "center",
+          "direction": "column",
+          "style": {
+            "marginTop": 10,
+            "overflow": "visible"
+          }
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "meta": {
+          "name": "FlexRepeater"
+        },
+        "position": {
+          "grow": 1
+        },
+        "propConfig": {
+          "position.display": {
+            "binding": {
+              "config": {
+                "expression": "!{view.custom.isCollapsed}"
+              },
+              "type": "expr"
+            }
+          },
+          "props.instances": {
+            "binding": {
+              "config": {
+                "path": "view.custom.Loads"
+              },
+              "type": "property"
+            }
+          }
+        },
+        "props": {
+          "alignItems": "flex-start",
+          "elementPosition": {
+            "basis": 450,
+            "grow": 0
+          },
+          "elementStyle": {
+            "margin": 10
+          },
+          "justify": "center",
+          "path": "Templates/DeviceWrapper",
+          "style": {
+            "marginTop": 15
+          },
+          "useDefaultViewWidth": false,
+          "wrap": "wrap"
+        },
+        "type": "ia.display.flex-repeater"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "propConfig": {
+      "props.style.borderColor": {
+        "binding": {
+          "config": {
+            "path": "view.custom.Online"
+          },
+          "transforms": [
+            {
+              "fallback": "#D1EC0E",
+              "inputType": "scalar",
+              "mappings": [
+                {
+                  "input": true,
+                  "output": "#04C278"
+                },
+                {
+                  "input": false,
+                  "output": "#FF6B72"
+                }
+              ],
+              "outputType": "scalar",
+              "type": "map"
+            }
+          ],
+          "type": "property"
+        }
+      }
+    },
+    "props": {
+      "direction": "column",
+      "style": {
+        "borderBottomLeftRadius": 10,
+        "borderBottomRightRadius": 10,
+        "borderStyle": "solid",
+        "borderTopLeftRadius": 10,
+        "borderTopRightRadius": 10,
+        "boxShadow": "2px 2px 5px #5F6467",
+        "margin": 10
+      }
+    },
+    "type": "ia.container.flex"
+  }
+}
