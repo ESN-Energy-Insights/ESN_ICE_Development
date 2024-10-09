@@ -1,0 +1,206 @@
+{
+  "custom": {
+    "Month": 2
+  },
+  "params": {
+    "settings": {
+      "MonthRow": 0,
+      "tagpath": "[ESN]Opto22"
+    }
+  },
+  "propConfig": {
+    "custom.Month": {
+      "binding": {
+        "config": {
+          "fallbackDelay": 2.5,
+          "mode": "indirect",
+          "references": {
+            "tagpath": "{view.params.settings.tagpath}"
+          },
+          "tagPath": "{tagpath}/Company/EnergyBill/Month[1,1]"
+        },
+        "type": "tag"
+      },
+      "persistent": true
+    },
+    "params.settings": {
+      "paramDirection": "inout",
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 30,
+      "width": 400
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "meta": {
+              "name": "Shift Label",
+              "tooltip": {
+                "width": "30px"
+              }
+            },
+            "position": {
+              "basis": "98px",
+              "shrink": 0
+            },
+            "propConfig": {
+              "props.text": {
+                "binding": {
+                  "config": {
+                    "expression": "dateformat(getDate(2024,{view.params.settings.MonthRow},1),\u0027MMMM\u0027)"
+                  },
+                  "type": "expr"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "fontFamily": "Verdana",
+                "marginLeft": "20px",
+                "textAlign": "left"
+              },
+              "textStyle": {
+                "textAlign": "left"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label",
+              "tooltip": {
+                "width": "30px"
+              }
+            },
+            "position": {
+              "basis": "119px"
+            },
+            "props": {
+              "text": "Bill Start Date:",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "Label_0"
+            },
+            "position": {
+              "basis": "52px"
+            },
+            "props": {
+              "text": "Month: ",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "textAlign": "right"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "NumericEntryField"
+            },
+            "position": {
+              "basis": "45px"
+            },
+            "propConfig": {
+              "props.value": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "fallbackDelay": 2.5,
+                    "mode": "indirect",
+                    "references": {
+                      "MonthRow": "{view.params.settings.MonthRow}",
+                      "tagpath": "{view.params.settings.tagpath}"
+                    },
+                    "tagPath": "{tagpath}/Company/EnergyBill/Month[{MonthRow},1]"
+                  },
+                  "type": "tag"
+                }
+              }
+            },
+            "props": {
+              "style": {
+                "classes": "All_Text/Input_Text"
+              }
+            },
+            "type": "ia.input.numeric-entry-field"
+          },
+          {
+            "meta": {
+              "name": "Label_1"
+            },
+            "position": {
+              "basis": "36px"
+            },
+            "props": {
+              "text": "Day: ",
+              "textStyle": {
+                "classes": "All_Text/Input_Label_Text_small",
+                "textAlign": "right"
+              }
+            },
+            "type": "ia.display.label"
+          },
+          {
+            "meta": {
+              "name": "NumericEntryField_0"
+            },
+            "position": {
+              "basis": "53px"
+            },
+            "propConfig": {
+              "props.value": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "fallbackDelay": 2.5,
+                    "mode": "indirect",
+                    "references": {
+                      "MonthRow": "{view.params.settings.MonthRow}",
+                      "tagpath": "{view.params.settings.tagpath}"
+                    },
+                    "tagPath": "{tagpath}/Company/EnergyBill/Month[{MonthRow},2]"
+                  },
+                  "type": "tag"
+                }
+              }
+            },
+            "props": {
+              "inputBounds": {
+                "maximum": 31,
+                "minimum": 1
+              },
+              "style": {
+                "classes": "All_Text/Input_Text",
+                "marginRight": 10
+              }
+            },
+            "type": "ia.input.numeric-entry-field"
+          }
+        ],
+        "meta": {
+          "name": "FlexContainer"
+        },
+        "position": {
+          "basis": "400px"
+        },
+        "type": "ia.container.flex"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "type": "ia.container.flex"
+  }
+}

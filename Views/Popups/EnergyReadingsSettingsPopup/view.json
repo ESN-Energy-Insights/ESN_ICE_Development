@@ -1,0 +1,256 @@
+{
+  "custom": {
+    "settings": []
+  },
+  "params": {},
+  "propConfig": {
+    "custom.settings": {
+      "persistent": true
+    }
+  },
+  "props": {
+    "defaultSize": {
+      "height": 542,
+      "width": 767
+    }
+  },
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "meta": {
+                  "name": "Shift Label"
+                },
+                "position": {
+                  "basis": "53px"
+                },
+                "props": {
+                  "style": {
+                    "fontFamily": "Verdana",
+                    "fontSize": "20px",
+                    "fontWeight": "bold",
+                    "marginLeft": "30px"
+                  },
+                  "text": "Shift"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Start Time Label"
+                },
+                "position": {
+                  "basis": "118px"
+                },
+                "props": {
+                  "style": {
+                    "fontFamily": "Verdana",
+                    "fontSize": "20px",
+                    "fontWeight": "bold",
+                    "marginLeft": "55px"
+                  },
+                  "text": "Start Time"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "End Time Label"
+                },
+                "position": {
+                  "basis": "116px"
+                },
+                "props": {
+                  "style": {
+                    "fontFamily": "Verdana",
+                    "fontSize": "20px",
+                    "fontWeight": "bold",
+                    "marginLeft": "60px"
+                  },
+                  "text": "End Time"
+                },
+                "type": "ia.display.label"
+              },
+              {
+                "meta": {
+                  "name": "Days Label"
+                },
+                "position": {
+                  "basis": "50px"
+                },
+                "props": {
+                  "style": {
+                    "fontFamily": "Verdana",
+                    "fontSize": "20px",
+                    "fontWeight": "bold",
+                    "marginLeft": "155px"
+                  },
+                  "text": "Days"
+                },
+                "type": "ia.display.label"
+              }
+            ],
+            "meta": {
+              "name": "Column Labels"
+            },
+            "position": {
+              "basis": "30px"
+            },
+            "props": {
+              "style": {
+                "borderStyle": "none",
+                "marginBottom": "5px",
+                "marginTop": "15px"
+              },
+              "wrap": "wrap"
+            },
+            "type": "ia.container.flex"
+          },
+          {
+            "meta": {
+              "name": "FlexRepeater"
+            },
+            "position": {
+              "basis": 320,
+              "grow": 1
+            },
+            "propConfig": {
+              "props.instances[0].settings": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "session.custom.energy-readings-settings[0]"
+                  },
+                  "type": "property"
+                },
+                "persistent": true
+              },
+              "props.instances[1].settings": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "session.custom.energy-readings-settings[1]"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.instances[2].settings": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "session.custom.energy-readings-settings[2]"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.instances[3].settings": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "session.custom.energy-readings-settings[3]"
+                  },
+                  "type": "property"
+                }
+              },
+              "props.instances[4].settings": {
+                "binding": {
+                  "config": {
+                    "bidirectional": true,
+                    "path": "session.custom.energy-readings-settings[4]"
+                  },
+                  "type": "property"
+                }
+              }
+            },
+            "props": {
+              "direction": "column",
+              "instances": [
+                {
+                  "settings": {
+                    "ShiftRow": 0,
+                    "name": "Shift 1",
+                    "tagpath": "[default]Opto22",
+                    "time-select": true
+                  }
+                },
+                {},
+                {},
+                {},
+                {}
+              ],
+              "path": "Popups/Embedded/Shift Schedule",
+              "useDefaultViewHeight": false,
+              "useDefaultViewWidth": false
+            },
+            "type": "ia.display.flex-repeater"
+          }
+        ],
+        "meta": {
+          "name": "Energy Readings Settings Container"
+        },
+        "position": {
+          "height": 491,
+          "width": 773,
+          "x": -0.5,
+          "y": -0.5
+        },
+        "props": {
+          "direction": "column"
+        },
+        "type": "ia.container.flex"
+      },
+      {
+        "events": {
+          "component": {
+            "onActionPerformed": {
+              "config": {
+                "script": "\tsystem.perspective.closePopup(\u002735SPkugW\u0027)"
+              },
+              "scope": "G",
+              "type": "script"
+            }
+          }
+        },
+        "meta": {
+          "name": "Button"
+        },
+        "position": {
+          "height": 40,
+          "width": 130,
+          "x": 315.5,
+          "y": 481.5
+        },
+        "props": {
+          "style": {
+            "backgroundColor": "#D4D4D4",
+            "borderBottomLeftRadius": "5px",
+            "borderBottomRightRadius": "5px",
+            "borderStyle": "none",
+            "borderTopLeftRadius": "5px",
+            "borderTopRightRadius": "5px",
+            "classes": "All_Text/Base_Text"
+          },
+          "text": "Done"
+        },
+        "type": "ia.input.button"
+      }
+    ],
+    "meta": {
+      "name": "root"
+    },
+    "position": {
+      "x": -32,
+      "y": -0.5
+    },
+    "props": {
+      "style": {
+        "backgroundColor": "#FFFFFF",
+        "overflow": "hidden"
+      }
+    },
+    "type": "ia.container.coord"
+  }
+}
