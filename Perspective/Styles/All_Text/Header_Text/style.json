@@ -1,0 +1,12 @@
+{
+  "base": {
+    "style": {
+      "color": "#212427",
+      "fontFamily": "Verdana",
+      "fontSize": "20px",
+      "fontWeight": "bold",
+      "paddingBottom": "20px",
+      "paddingTop": "20px"
+    }
+  }
+}

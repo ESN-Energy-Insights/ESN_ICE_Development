@@ -1,0 +1,10 @@
+{
+  "base": {
+    "style": {
+      "borderLeftStyle": "none",
+      "fontSize": "14px",
+      "lineHeight": "20px",
+      "margin": "5px"
+    }
+  }
+}

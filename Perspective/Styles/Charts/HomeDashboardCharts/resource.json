@@ -1,0 +1,16 @@
+{
+  "scope": "G",
+  "version": 1,
+  "restricted": false,
+  "overridable": true,
+  "files": [
+    "style.json"
+  ],
+  "attributes": {
+    "lastModificationSignature": "1546571c92d9fd9257f0ffb014c852b73e9bac774c8b4f645494f37dceb7e5f1",
+    "lastModification": {
+      "actor": "becca@energysystemsnetwork.com",
+      "timestamp": "2024-04-29T15:08:37Z"
+    }
+  }
+}

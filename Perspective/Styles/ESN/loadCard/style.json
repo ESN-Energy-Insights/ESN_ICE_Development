@@ -1,0 +1,27 @@
+{
+  "base": {
+    "style": {
+      "borderTopLeftRadius": "15px",
+      "borderTopRightRadius": "15px",
+      "borderBottomLeftRadius": "15px",
+      "borderBottomRightRadius": "15px",
+      "boxShadow": "2px 2px 5px #5F6467",
+      "cursor": "pointer",
+      "overflow": "visible"
+    }
+  },
+  "variants": [
+    {
+      "pseudo": "hover",
+      "style": {
+        "borderTopLeftRadius": "15px",
+        "borderTopRightRadius": "15px",
+        "borderBottomLeftRadius": "15px",
+        "borderBottomRightRadius": "15px",
+        "boxShadow": "4px 4px 8px #5F6467",
+        "cursor": "pointer",
+        "overflow": "visible"
+      }
+    }
+  ]
+}
