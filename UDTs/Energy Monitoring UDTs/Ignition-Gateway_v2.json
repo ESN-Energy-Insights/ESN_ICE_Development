@@ -1,0 +1,116 @@
+{
+  "typeColor": -16733184,
+  "name": "Ignition-Gateway_V2",
+  "parameters": {
+    "Ignition Version": {
+      "dataType": "String",
+      "value": "Ignition Version"
+    },
+    "Location": {
+      "dataType": "String",
+      "value": "Location Here"
+    },
+    "Model": {
+      "dataType": "String",
+      "value": "GRV-EPIC-PR2"
+    },
+    "Company Name": {
+      "dataType": "String",
+      "value": "Customer Name Here"
+    },
+    "Manufacturer": {
+      "dataType": "String",
+      "value": "Opto 22"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "Cirrus Link Modules",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "reference",
+          "dataType": "String",
+          "sourceTagPath": "[MQTT Transmission]Transmission Info/Version",
+          "name": "MQTT Transmission Version",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "sourceTagPath": "[MQTT Distributor]Distributor Info/Connected Clients",
+          "name": "MQTT Distributor Clients",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "sourceTagPath": "[MQTT Engine]Engine Info/Edge Nodes/NodeUnitCount",
+          "name": "MQTT Engine Node Count",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "dataType": "String",
+          "sourceTagPath": "[MQTT Engine]Engine Info/Version",
+          "name": "MQTT Engine Version",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "Edge Device Data",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "reference",
+          "dataType": "String",
+          "sourceTagPath": "[System]Gateway/SystemName",
+          "name": "Name",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "rawHigh": 1.0,
+          "scaleMode": "Linear",
+          "dataType": "Float4",
+          "sourceTagPath": "[System]Gateway/Performance/Memory Utilization",
+          "name": "Memory Utilization",
+          "deadband": 0.05,
+          "engUnit": "%",
+          "tagType": "AtomicTag",
+          "scaledHigh": 100.0
+        },
+        {
+          "valueSource": "reference",
+          "dataType": "String",
+          "sourceTagPath": "[System]Gateway/Timezone",
+          "name": "Timezone",
+          "formatString": "#,##0.##",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "sourceTagPath": "[System]Gateway/UptimeSeconds",
+          "name": "UptimeSeconds",
+          "deadband": 0.01,
+          "engUnit": "sec",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "reference",
+          "rawHigh": 1.0,
+          "engHigh": 100.0,
+          "sourceTagPath": "[System]Gateway/Performance/CPU Usage",
+          "engUnit": "%",
+          "tagType": "AtomicTag",
+          "scaledHigh": 100.0,
+          "scaleMode": "Linear",
+          "dataType": "Float4",
+          "name": "CPU Usage",
+          "deadband": 0.1,
+          "rawLow": 0.0
+        }
+      ]
+    }
+  ]
+}

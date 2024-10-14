@@ -1,0 +1,555 @@
+{
+  "typeColor": -16721447,
+  "name": "RIO-EMU-Lite-MQTT_v2",
+  "parameters": {
+    "Asset Description": {
+      "dataType": "String",
+      "value": "(Describe the asset)"
+    },
+    "Asset Location": {
+      "dataType": "String",
+      "value": "(Where is the asset)"
+    },
+    "MQTTGroupID": {
+      "dataType": "String",
+      "value": "(MQTT Group ID from EMU)"
+    },
+    "Load Phases": {
+      "dataType": "String",
+      "value": "(Number of phases connected)"
+    },
+    "MQTTEdgeNodeID": {
+      "dataType": "String",
+      "value": "(MQTT Edge Node ID from EMU)"
+    },
+    "Load Side Current Transformer Rating": {
+      "dataType": "String",
+      "value": "(CT load side rating)"
+    },
+    "MQTTDeviceID": {
+      "dataType": "String",
+      "value": "(MQTT Device ID from EMU)"
+    },
+    "Load Install Date": {
+      "dataType": "String",
+      "value": "(MM/DD/YYYY)"
+    },
+    "Asset Name": {
+      "dataType": "String",
+      "value": "(Name of the asset)"
+    },
+    "Load Type": {
+      "dataType": "String",
+      "value": "(Delta or Wye)"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "EMUProperties",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/Node Info/Offline DateTime"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Offline DateTime",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Part Number"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Hardware Part Number",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Info/Online DateTime"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Online DateTime",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Firmware Version"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Firmware Version",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/Node Properties/Hardware Make"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Hardware Vendor",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Info/Online"
+          },
+          "valueSource": "reference",
+          "dataType": "Boolean",
+          "name": "Online",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "EMUData",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "Totals",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_63/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_54/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_56/Value"
+                  },
+                  "valueSource": "reference",
+                  "eventScripts": [
+                    {
+                      "eventid": "valueChanged",
+                      "script": "\timport system\n\tdemand \u003d system.tag.read(\"[.]Intervals/Total_VA_15min_Marker\").value\n\tif currentValue.value \u003e demand:\n\t\tsystem.tag.write(\"[.]Intervals/Total_VA_15min_Marker\", currentValue.value)"
+                    }
+                  ],
+                  "dataType": "Float4",
+                  "name": "Total_ApparentPower_VA",
+                  "deadband": 0.1,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "expr",
+                      "eventScripts": [
+                        {
+                          "eventid": "valueChanged",
+                          "script": "\timport system\n\timport datetime\n\tminutes \u003d datetime.datetime.now().minute\n\tseconds \u003d datetime.datetime.now().second\n\tif minutes % 15 \u003d\u003d 0 and seconds \u003d\u003d 0:\n\t\tdemand \u003d system.tag.read(\"[.]Total_VA_15min_Marker\").value\n\t\tsystem.tag.write(\"[.]Total_VA_15Min_Demand\", demand)\n\t\tsystem.tag.write(\"[.]Total_VA_15Min_Marker\", 0)"
+                        }
+                      ],
+                      "expression": "toInt(getSecond(now()) % 2)",
+                      "dataType": "Int4",
+                      "name": "Total_VA_Timer",
+                      "executionMode": "FixedRate",
+                      "value": 0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_VA_15min_Demand",
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_VA_15min_Marker",
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_55/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_ReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_61/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_NetReactiveEnergy_kVArh",
+                  "deadband": 0.5,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_58/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_UnsignedEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_60/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_NegativeEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_62/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_NetApparentEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_59/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_PositiveEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_57/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "Total_NetEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_15min_marker",
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "memory",
+                      "expression": "{[.]../Total_NetApparentEnergy_kWh}-{[.]Total_kWh_15min_marker}",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_Current_15min_Interval",
+                      "deadband": 1.0E-4,
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "eventScripts": [
+                        {
+                          "eventid": "valueChanged",
+                          "script": "\timport system\n\timport datetime\n\tminutes \u003d datetime.datetime.now().minute\n\tseconds \u003d datetime.datetime.now().second\n\tif minutes % 15 \u003d\u003d 0 and seconds \u003d\u003d 0:\n\t\tmarker \u003d system.tag.read(\"[.]Total_kWh_15min_marker\").value\n\t\tnewValue \u003d system.tag.read(\"[.]../Total_NetApparentEnergy_kWh\").value\n\t\tsystem.tag.write(\"[.]Total_kWh_Current_15min_Interval\", newValue-marker)\n\t\tsystem.tag.write(\"[.]Total_kWh_15min_marker\", newValue)"
+                        }
+                      ],
+                      "expression": "toInt(getSecond(now()) % 2)",
+                      "name": "Total_kWh_Timer",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseA",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_02/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_01/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_05/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_PowerFactor",
+                  "deadband": 0.01,
+                  "engUnit": "",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_08/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_00/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseB",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_26/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_20/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_19/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_18/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_23/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseC",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_36/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_44/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_41/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_38/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_00_Channel_37/Value"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

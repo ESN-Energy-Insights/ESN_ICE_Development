@@ -1,0 +1,222 @@
+{
+  "typeColor": -16776999,
+  "name": "RIO-KYZ-MQTT_v2",
+  "parameters": {
+    "KYZ Adapter Vendor": {
+      "dataType": "String",
+      "value": "(Vendor name of KYZ Adapter)"
+    },
+    "MQTTGroupID": {
+      "dataType": "String",
+      "value": "(MQTT Group ID from RIO)"
+    },
+    "MQTTEdgeNodeID": {
+      "dataType": "String",
+      "value": "(MQTT Edge Node ID from RIO)"
+    },
+    "KYZ Install Date": {
+      "dataType": "String",
+      "value": "(MM/DD/YYYY)"
+    },
+    "KYZ Service Meter Location": {
+      "dataType": "String",
+      "value": "(Location of KYZ Service Meter)"
+    },
+    "MQTTDeviceID": {
+      "dataType": "String",
+      "value": "(MQTT Device ID from RIO)"
+    },
+    "kWh per Pulse": {
+      "dataType": "String",
+      "value": "0.0"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "KYZData",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_1"
+          },
+          "valueSource": "reference",
+          "dataType": "Float4",
+          "name": "KW",
+          "deadband": 0.1,
+          "engUnit": "KW",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_2"
+          },
+          "valueSource": "reference",
+          "dataType": "Float4",
+          "name": "KWh",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_3"
+          },
+          "valueSource": "reference",
+          "dataType": "Float4",
+          "name": "KWh15m",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_4"
+          },
+          "valueSource": "reference",
+          "dataType": "Float4",
+          "name": "KWh24h",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "KYZProperties",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Info/Online DateTime"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Online DateTime",
+          "historyTimeDeadbandUnits": "MS",
+          "formatString": "#,##0.##",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/Node Properties/Hardware Make"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Hardware Make",
+          "historyTimeDeadbandUnits": "MS",
+          "value": "",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Firmware Version"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Firmware Version",
+          "historyTimeDeadbandUnits": "MS",
+          "value": "",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/Node Properties/Software Version"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Software Version",
+          "historyTimeDeadbandUnits": "MS",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Info/Online"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "Boolean",
+          "name": "Online",
+          "historyTimeDeadbandUnits": "MS",
+          "value": false,
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/Node Info/Offline DateTime"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Offline DateTime",
+          "historyTimeDeadbandUnits": "MS",
+          "formatString": "#,##0.##",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Part Number"
+          },
+          "valueSource": "reference",
+          "historyTimeDeadband": 0,
+          "dataType": "String",
+          "name": "Part Number",
+          "historyTimeDeadbandUnits": "MS",
+          "sampleMode": "OnChange",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "KYZConfiguration",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_0"
+          },
+          "valueSource": "reference",
+          "dataType": "Float4",
+          "name": "KYZ-Pulse-Calculation",
+          "tagType": "AtomicTag"
+        },
+        {
+          "valueSource": "expr",
+          "eventScripts": [
+            {
+              "eventid": "valueChanged",
+              "script": "\timport system\n\tsystem.tag.write(\"[.]KYZ-Pulse-Calculation\", currentValue)"
+            }
+          ],
+          "expression": "toFloat({kWh per Pulse})",
+          "dataType": "Float4",
+          "name": "KYZ-Pulse-Parameter",
+          "tagType": "AtomicTag"
+        }
+      ]
+    }
+  ]
+}

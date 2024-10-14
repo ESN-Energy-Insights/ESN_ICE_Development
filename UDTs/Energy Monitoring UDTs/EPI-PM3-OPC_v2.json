@@ -1,0 +1,1528 @@
+{
+  "typeColor": -6750208,
+  "name": "EPIC-PM3-OPC_v2",
+  "parameters": {
+    "Asset Description": {
+      "dataType": "String",
+      "value": "(Describe the asset)"
+    },
+    "Asset Location": {
+      "dataType": "String",
+      "value": "(Where is the asset)"
+    },
+    "ModuleNumber": {
+      "dataType": "String",
+      "value": "00"
+    },
+    "Load Phases": {
+      "dataType": "String",
+      "value": "(Number of phases connected)"
+    },
+    "Load Side Current Transformer Rating": {
+      "dataType": "String",
+      "value": "(CT load side rating)"
+    },
+    "OPCConnectionName": {
+      "dataType": "String",
+      "value": "(OPC UA Connection Name from Ignition)"
+    },
+    "Load Install Date": {
+      "dataType": "String",
+      "value": "0"
+    },
+    "Asset Name": {
+      "dataType": "String",
+      "value": "(Name of the asset)"
+    },
+    "OPCDeviceID": {
+      "dataType": "String",
+      "value": "(OPC UA Device ID from RIO EMU)"
+    },
+    "Load Type": {
+      "dataType": "String",
+      "value": " (Delta or Wye)"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "EMUProperties",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/Device Properties/Part Number"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Part Number"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "String",
+          "name": "Hardware Part Number",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/Device Properties/Firmware Version"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Firmware Version"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "String",
+          "name": "Firmware Version",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "EMUData",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "PhaseB",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_26/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_26/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_25/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_25/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_PeakCurrent_A",
+                  "deadband": 0.1,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_23/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_23/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_22/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_22/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_ApparentPower_VA",
+                  "deadband": 0.1,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_19/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_19/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_27/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_27/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_TruePowerFF_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_24/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_24/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_PeakVoltage_V",
+                  "deadband": 0.1,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_20/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_20/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_18/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_18/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_28/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_28/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_HarmonicTruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_29/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_29/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_ReactivePowerFF_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_21/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_21/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_ReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_30/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_30/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_AvgReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_35/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_35/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_ApparentEnergy_kVAh",
+                  "deadband": 0.5,
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_32/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_32/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_PositiveEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_33/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_33/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_NegativeEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_31/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_31/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_NetEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_34/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_34/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhB_NetReactiveEnergy_kVArh",
+                  "deadband": 0.5,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Totals",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_62/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_62/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_NetApparentEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_58/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_58/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_UnsignedEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_57/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_57/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_NetEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_59/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_59/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_PositiveEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_61/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_61/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_NetReactiveEnergy_kVArh",
+                  "deadband": 0.5,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "memory",
+                      "expression": "{[.]../Total_NetApparentEnergy_kWh}-{[.]Total_kWh_15min_marker}",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_Current_15min_Interval",
+                      "deadband": 1.0E-4,
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_15min_marker",
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "eventScripts": [
+                        {
+                          "eventid": "valueChanged",
+                          "script": "\timport system\n\timport datetime\n\tminutes \u003d datetime.datetime.now().minute\n\tseconds \u003d datetime.datetime.now().second\n\tif minutes % 15 \u003d\u003d 0 and seconds \u003d\u003d 0:\n\t\tmarker \u003d system.tag.read(\"[.]Total_kWh_15min_marker\").value\n\t\tnewValue \u003d system.tag.read(\"[.]../Total_NetApparentEnergy_kWh\").value\n\t\tsystem.tag.write(\"[.]Total_kWh_Current_15min_Interval\", newValue-marker)\n\t\tsystem.tag.write(\"[.]Total_kWh_15min_marker\", newValue)"
+                        }
+                      ],
+                      "expression": "toInt(getSecond(now()) % 2)",
+                      "name": "Total_kWh_Timer",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_60/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_60/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_NegativeEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_63/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_63/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_56/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_56/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "eventScripts": [
+                    {
+                      "eventid": "valueChanged",
+                      "script": "\timport system\n\tdemand \u003d system.tag.read(\"[.]Intervals/Total_VA_15min_Marker\").value\n\tif currentValue.value \u003e demand:\n\t\tsystem.tag.write(\"[.]Intervals/Total_VA_15min_Marker\", currentValue.value)"
+                    }
+                  ],
+                  "dataType": "Float4",
+                  "name": "Total_ApparentPower_VA",
+                  "deadband": 0.1,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_54/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_54/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_55/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_55/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "Total_ReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_VA_15min_Demand",
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "expr",
+                      "eventScripts": [
+                        {
+                          "eventid": "valueChanged",
+                          "script": "\timport system\n\timport datetime\n\tminutes \u003d datetime.datetime.now().minute\n\tseconds \u003d datetime.datetime.now().second\n\tif minutes % 15 \u003d\u003d 0 and seconds \u003d\u003d 0:\n\t\tdemand \u003d system.tag.read(\"[.]Total_VA_15min_Marker\").value\n\t\tsystem.tag.write(\"[.]Total_VA_15Min_Demand\", demand)\n\t\tsystem.tag.write(\"[.]Total_VA_15Min_Marker\", 0)"
+                        }
+                      ],
+                      "expression": "toInt(getSecond(now()) % 2)",
+                      "dataType": "Int4",
+                      "name": "Total_VA_Timer",
+                      "executionMode": "FixedRate",
+                      "value": 0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "valueSource": "memory",
+                      "expression": "",
+                      "dataType": "Float4",
+                      "name": "Total_VA_15min_Marker",
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseA",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_10/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_10/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_HarmonicTruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_07/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_07/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_PeakCurrent_A",
+                  "deadband": 0.1,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_02/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_02/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_04/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_04/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_ApparentPower_VA",
+                  "deadband": 0.1,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_09/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_09/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_TruePowerFF_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_12/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_12/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_AvgReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_03/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_03/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_ReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_08/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_08/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_00/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_00/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_05/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_05/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_PowerFactor",
+                  "deadband": 0.01,
+                  "engUnit": "",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_11/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_11/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_ReactivePowerFF_VAr",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_01/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_01/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_06/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_06/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_PeakVoltage_V",
+                  "deadband": 0.1,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_13/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_13/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_NetEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_14/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_14/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_PositiveEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_15/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_15/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_NegativeEnergy_kWh",
+                  "deadband": 0.5,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_16/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_16/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_NetReactiveEnergy_kVArh",
+                  "deadband": 0.5,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_17/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[~]{OPCConnectionName}/{OPCDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_17/Energy"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhA_ApparentEnergy_kVAh",
+                  "deadband": 0.5,
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseC",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_51/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_51/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_NegativeEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_49/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_49/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_NetEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_50/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_50/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_PositiveEnergy_kWh",
+                  "deadband": 0.5,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_53/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_53/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_ApparentEnergy_kVAh",
+                  "deadband": 0.5,
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_52/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_52/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_NetReactiveEnergy_kVArh",
+                  "deadband": 0.5,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_41/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_41/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_PowerFactor",
+                  "deadband": 0.01,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_48/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_48/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_AvgReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_44/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_44/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_Frequency_Hz",
+                  "deadband": 0.001,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_47/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_47/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_ReactivePowerFF_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_46/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_46/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_HarmonicTruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_36/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_36/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_Voltage_Vrms",
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_40/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_40/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_ApparentPower_VA",
+                  "deadband": 0.1,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_39/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_39/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_ReactivePower_VAr",
+                  "deadband": 0.1,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_42/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_42/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_PeakVoltage_V",
+                  "deadband": 0.1,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_37/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_37/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_Current_Arms",
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_38/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_38/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_TruePower_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_43/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_43/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_PeakCurrent_A",
+                  "deadband": 0.1,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "opcItemPath": {
+                    "bindType": "parameter",
+                    "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_45/Value"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Modules/Channels/Module_{ModuleNumber}_Channel_45/Value"
+                  },
+                  "opcServer": {
+                    "bindType": "parameter",
+                    "binding": "{OPCConnectionName}"
+                  },
+                  "valueSource": "opc",
+                  "dataType": "Float4",
+                  "name": "PhC_TruePowerFF_W",
+                  "deadband": 0.1,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

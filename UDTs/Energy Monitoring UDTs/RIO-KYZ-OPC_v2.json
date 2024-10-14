@@ -1,0 +1,198 @@
+{
+  "typeColor": -16776999,
+  "name": "RIO-KYZ-OPC_v2",
+  "parameters": {
+    "KYZ Adapter Vendor": {
+      "dataType": "String",
+      "value": "(Vendor name of KYZ Adapter)"
+    },
+    "KYZ Install Date": {
+      "dataType": "String",
+      "value": "(MM/DD/YYYY)"
+    },
+    "KYZ Service Meter Location": {
+      "dataType": "String",
+      "value": "(Location of KYZ Service Meter)"
+    },
+    "OPCConnectionName": {
+      "dataType": "String",
+      "value": "(OPC UA Connection Name from Ignition)"
+    },
+    "kWh per Pulse": {
+      "dataType": "String",
+      "value": "0.0"
+    },
+    "OPCDeviceID": {
+      "dataType": "String",
+      "value": "(OPC UA Device ID from RIO KYZ)"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "KYZData",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Scratchpad/Float/Element_4"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_4"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "Float4",
+          "name": "kWh24h",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Scratchpad/Float/Element_1"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_1"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "Float4",
+          "name": "kW",
+          "deadband": 0.1,
+          "engUnit": "KW",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Scratchpad/Float/Element_3"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_3"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "Float4",
+          "name": "kWh15m",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Scratchpad/Float/Element_2"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_2"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "Float4",
+          "name": "kWh",
+          "deadband": 0.1,
+          "engUnit": "Kwh",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "KYZConfiguration",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "valueSource": "expr",
+          "eventScripts": [
+            {
+              "eventid": "valueChanged",
+              "script": "\timport system\n\tsystem.tag.write(\"[.]KYZ-Pulse-Calculation\", currentValue)"
+            }
+          ],
+          "expression": "toFloat({kWh per Pulse})",
+          "dataType": "Float4",
+          "name": "KYZ-Pulse-Parameter",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/OptoMMP/Scratchpad/Float/Element_0"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/OptoMMP/Scratchpad/Float/Element_0"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "Float4",
+          "name": "KYZ-Pulse-Calculation",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "KYZProperties",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/Device Properties/Firmware Version"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Firmware Version"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "String",
+          "name": "Firmware Version",
+          "tagType": "AtomicTag"
+        },
+        {
+          "opcItemPath": {
+            "bindType": "parameter",
+            "binding": "nsu\u003durn:opto22:groov:server;s\u003dDevices/[{OPCDeviceID}]/Device Properties/Part Number"
+          },
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "[MQTT Engine]Edge Nodes/{MQTTGroupID}/{MQTTEdgeNodeID}/{MQTTDeviceID}/Device Properties/Part Number"
+          },
+          "opcServer": {
+            "bindType": "parameter",
+            "binding": "{OPCConnectionName}"
+          },
+          "valueSource": "opc",
+          "dataType": "String",
+          "name": "Hardware Part Number",
+          "tagType": "AtomicTag"
+        }
+      ]
+    }
+  ]
+}
