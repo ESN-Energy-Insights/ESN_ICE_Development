@@ -1,0 +1,2389 @@
+{
+  "typeColor": -10882628,
+  "name": "ESN_PowerMonitor",
+  "parameters": {
+    "historyProvider": {
+      "dataType": "String"
+    },
+    "HiFreqHistoryProvider": {
+      "dataType": "String"
+    },
+    "sourcePath": {
+      "dataType": "String"
+    },
+    "sourceUDT": {
+      "dataType": "String"
+    }
+  },
+  "tagType": "UdtType",
+  "tags": [
+    {
+      "name": "DashboardSettings",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "StartupProfile",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "valueSource": "memory",
+              "name": "StartupSecBack",
+              "value": 10,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "StartupProfileStartTime",
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1709269200000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "name": "StartupSecForward",
+              "value": 60,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "name": "StartupProfileLookBackDays",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "StartupPower",
+              "value": 10.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "StartupProfileRefDate",
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1711944000000,
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "IntervalData",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "historyMaxAge": 1,
+              "dataType": "Float4",
+              "historyMaxAgeUnits": "MIN",
+              "name": "Power30minAverage",
+              "historyEnabled": true,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "historyMaxAge": 1,
+              "dataType": "Float4",
+              "historyMaxAgeUnits": "MIN",
+              "name": "Power15minAverage",
+              "historyEnabled": true,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "historyMaxAge": 1,
+              "dataType": "Float4",
+              "historyMaxAgeUnits": "MIN",
+              "name": "PowerhourAverage",
+              "historyEnabled": true,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "expr",
+              "eventScripts": [
+                {
+                  "eventid": "valueChanged",
+                  "script": "\tif currentValue.value \u003d\u003d 0 or currentValue.value \u003d\u003d 15 or currentValue.value \u003d\u003d 30 or currentValue.value \u003d\u003d 45:\n\t\tnowtime \u003d system.date.now()\n\t\tstarttime \u003d system.date.addMinutes(system.date.now(),-15)\n\t\treadmypath \u003d system.tag.readBlocking([\"[.]../Production/Powertagpath\"],1000)\n\t\tmypath \u003d readmypath[0].value\n\t\tAvgPowerArray \u003d  system.tag.queryTagHistory(paths\u003d[mypath], startDate\u003dstarttime, endDate\u003dnowtime, returnSize\u003d1, aggregationMode\u003d\"Average\")\n\t\tAvgPower \u003d AvgPowerArray.getValueAt(0,1)\n\t\tsystem.tag.writeBlocking([\"[.]Power15minAverage\"], AvgPower)\n\t\tif currentValue.value \u003d\u003d 0 or currentValue.value \u003d\u003d 30:\n\t\t\tstarttime \u003d system.date.addMinutes(system.date.now(),-30)\n\t\t\tAvgPowerArray \u003d  system.tag.queryTagHistory(paths\u003d[mypath], startDate\u003dstarttime, endDate\u003dnowtime, returnSize\u003d1, aggregationMode\u003d\"Average\")\n\t\t\tAvgPower \u003d AvgPowerArray.getValueAt(0,1)\n\t\t\tsystem.tag.writeBlocking([\"[.]Power30minAverage\"], AvgPower)\n\t\t\tif currentValue.value \u003d\u003d 0:\n\t\t\t\tstarttime \u003d system.date.addMinutes(system.date.now(),-60)\n\t\t\t\tAvgPowerArray \u003d  system.tag.queryTagHistory(paths\u003d[mypath], startDate\u003dstarttime, endDate\u003dnowtime, returnSize\u003d1, aggregationMode\u003d\"Average\")\n\t\t\t\tAvgPower \u003d AvgPowerArray.getValueAt(0,1)\n\t\t\t\tsystem.tag.writeBlocking([\"[.]PowerhourAverage\"], AvgPower)"
+                }
+              ],
+              "expression": "toInt(getMinute(now()))",
+              "dataType": "Int4",
+              "name": "15mintimer",
+              "executionMode": "FixedRate",
+              "executionRate": 60000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "DailyPeak",
+              "historyEnabled": true,
+              "tagType": "AtomicTag"
+            }
+          ]
+        },
+        {
+          "name": "HighLowThresholds",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Frequency",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "High",
+                  "value": 60.3,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledLow",
+                  "value": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledHigh",
+                  "value": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "Low",
+                  "value": 59.7,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "name": "LowDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "name": "HighDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Voltage",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "name": "HighDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledLow",
+                  "value": false,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "name": "LowDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "High",
+                  "value": 504.0,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "Low",
+                  "value": 420.0,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledHigh",
+                  "value": false,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "name": "HighDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledHigh",
+                  "value": false,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "Low",
+                  "value": -10.0,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledLow",
+                  "value": false,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "name": "LowDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "High",
+                  "value": 200.0,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "PhaseMismatch",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "name": "HighDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "High",
+                  "value": 0.5,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "Enabled",
+                  "value": true,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "PowerFactor",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "name": "LowDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "Low",
+                  "value": 0.5,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "EnabledLow",
+                  "value": true,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Harmonics",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "valueSource": "memory",
+                  "name": "HighDelay",
+                  "value": 600,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "High",
+                  "value": 0.5,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "valueSource": "memory",
+                  "dataType": "Boolean",
+                  "name": "Enabled",
+                  "value": true,
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Production",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "ProductionEndDatetime",
+              "historyEnabled": true,
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1713412740000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "Part Energy",
+              "historyEnabled": true,
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "MachineOffMinSec",
+              "historyEnabled": true,
+              "value": 60.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "expr",
+              "expression": "if({[.]../../Data/Totals/Power/Total_TruePower}\u003e{[.]MachineOnPower}, TRUE , FALSE)",
+              "dataType": "Boolean",
+              "documentation": "",
+              "name": "ProductionBooleanSimple",
+              "historyEnabled": true,
+              "tooltip": "",
+              "executionMode": "FixedRate",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "expr",
+              "expression": "{[.]MachineOnPower}-{[.]MachineOffPower}",
+              "dataType": "Float4",
+              "name": "MachineOffDeadband",
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "ProductionStartTime",
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1713348000000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "PartPowerThreshold",
+              "value": 1.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "ProductionStartDatetime",
+              "historyEnabled": true,
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1713326400000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "MachineOffPower",
+              "value": 1.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "Production Energy",
+              "historyEnabled": true,
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "ProductionEndTime",
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1713387600000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "Part Avg Power",
+              "historyEnabled": true,
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "reference",
+              "rawHigh": 1000.0,
+              "historyMaxAge": 300,
+              "alarms": [
+                {
+                  "mode": "AboveValue",
+                  "name": "Producing",
+                  "label": "",
+                  "priority": "Diagnostic",
+                  "setpointA": {
+                    "bindType": "Tag",
+                    "value": "[.]MachineOnPower"
+                  },
+                  "timeOnDelaySeconds": {
+                    "bindType": "Tag",
+                    "value": "[.]MachineOnMinSec"
+                  },
+                  "deadband": {
+                    "bindType": "Tag",
+                    "value": "[.]MachineOffDeadband"
+                  },
+                  "timeOffDelaySeconds": {
+                    "bindType": "Tag",
+                    "value": "[.]MachineOffMinSec"
+                  }
+                }
+              ],
+              "sourceTagPath": "[.]../../Data/Totals/Power/Total_TruePower",
+              "engUnit": "kW",
+              "tagType": "AtomicTag",
+              "scaledHigh": 1.0,
+              "eventScripts": [
+                {
+                  "eventid": "alarmActive",
+                  "script": "\tnowtime\u003dsystem.date.now()\n\tdelaytime \u003d int(system.tag.readBlocking(\"[.]MachineOnMinSec\",1000)[0].value)\n\tactivetime \u003d system.date.addSeconds(nowtime, -1*delaytime)\n\tsystem.tag.writeBlocking(\"[.]ProductionStartDatetime\",activetime)\n"
+                },
+                {
+                  "eventid": "alarmCleared",
+                  "script": "\tnowtime \u003d system.date.now()\n\tstarttime \u003d system.tag.readBlocking([\"[.]ProductionStartDatetime\"],1000)[0].value\n\tdelaytime \u003d int(system.tag.readBlocking(\"[.]MachineOffMinSec\",1000)[0].value)\n\tmypath \u003d system.tag.readBlocking([\"[.]Powertagpath\"],1000)[0].value\n\tendtime \u003d system.date.addSeconds(nowtime, -1*delaytime)\n\tseconds \u003d system.date.secondsBetween(starttime,endtime)\n\tAvgPowerArray \u003d  system.tag.queryTagHistory(paths\u003d[mypath], startDate\u003dstarttime, endDate\u003dendtime, returnSize\u003d1, aggregationMode\u003d\"Average\")\n\tAvgPower \u003d AvgPowerArray.getValueAt(0,1)\n\tsystem.tag.writeBlocking(\"[.]Production Avg Power\", AvgPower)\n\tsystem.tag.writeBlocking(\"[.]Production Time\", seconds)\n\tenergy \u003d AvgPower * seconds/3600\n\tsystem.tag.writeBlocking(\"[.]Production Energy\", energy)\n\tsystem.tag.writeBlocking(\"[.]ProductionEndDatetime\", endtime)"
+                }
+              ],
+              "scaleMode": "Off",
+              "dataType": "Float4",
+              "historyMaxAgeUnits": "SEC",
+              "name": "Power for Production Scripts",
+              "historyEnabled": false,
+              "deadband": 0.01
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "Production Avg Power",
+              "historyEnabled": true,
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "DateTime",
+              "name": "PartStartDatetime",
+              "formatString": "yyyy-MM-dd h:mm:ss aa",
+              "value": 1711684800000,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "name": "MachineOnMinSec",
+              "historyEnabled": true,
+              "value": 0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "name": "PartCounter",
+              "historyEnabled": true,
+              "value": 0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "Production Time",
+              "historyEnabled": true,
+              "value": 0.0,
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "expr",
+              "expression": "\"[ESN]\"+{historyProvider}+\"/EdgeNodes/EMK1-0001/Loads/\"+{InstanceName}+\"/Data/Totals/Power/Total_TruePower\"",
+              "dataType": "String",
+              "name": "Powertagpath",
+              "tagType": "AtomicTag"
+            },
+            {
+              "historyProvider": {
+                "bindType": "parameter",
+                "binding": "{historyProvider}"
+              },
+              "valueSource": "expr",
+              "eventScripts": [
+                {
+                  "eventid": "valueChanged",
+                  "script": "\tif currentValue.value \u003d\u003d True:\n\t\toldpartcount \u003d system.tag.readBlocking(\"[.]PartCounter\",1000)\n\t\tnewpartcount \u003d oldpartcount[0].value+1\n\t\tsystem.tag.writeBlocking(\"[.]PartCounter\",newpartcount)\n\t\tsystem.tag.writeBlocking(\"[.]PartStartDatetime\",currentValue.timestamp)\n\telse:\n\t\tpartstartdatetimeread \u003d system.tag.readBlocking([\"[.]PartStartDatetime\"],1000)\n\t\tpartstartdatetime \u003d partstartdatetimeread[0].value\n\t\tnowtime \u003d system.date.now()\n\t\tseconds \u003d system.date.secondsBetween(partstartdatetime,nowtime)\n\t\treadmypath \u003d system.tag.readBlocking([\"[.]Powertagpath\"],1000)\n\t\tmypath \u003d readmypath[0].value\n\t\t#mypath \u003d \"[ESN]Opto22/EdgeNodes/EMK1-0001/Loads/Compressor1/Data/Totals/Power/Total_TruePower\"\n\t\tAvgPowerArray \u003d  system.tag.queryTagHistory(paths\u003d[mypath], startDate\u003dpartstartdatetime, endDate\u003dnowtime, returnSize\u003d1, aggregationMode\u003d\"Average\")\n\t\tAvgPower \u003d AvgPowerArray.getValueAt(0,1)\n\t\tsystem.tag.writeBlocking([\"[.]Part Avg Power\"], AvgPower)\n\t\tenergy \u003d AvgPower * seconds/3600\n\t\tsystem.tag.writeBlocking([\"[.]Part Energy\"], energy)"
+                }
+              ],
+              "expression": "if({[.]../../Data/Totals/Power/Total_TruePower}\u003e{[.]PartPowerThreshold}, TRUE , FALSE)",
+              "dataType": "Boolean",
+              "documentation": "True when a part is being made, false when it is not.  Simply based on being above or below the part power threshold",
+              "name": "Part Boolean",
+              "historyEnabled": true,
+              "tooltip": "True when a part is being made, false when it is not.  Simply based on being above or below the part power threshold",
+              "executionMode": "FixedRate",
+              "tagType": "AtomicTag"
+            },
+            {
+              "valueSource": "memory",
+              "dataType": "Float4",
+              "name": "MachineOnPower",
+              "value": 1.0,
+              "tagType": "AtomicTag"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Hardware Vendor"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Hardware Vendor",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.Asset Description"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Asset Description",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Hardware Part Number"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Hardware Part Number",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.MQTTGroupID"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "MQTTGroupID",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.MQTTDeviceID"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "MQTTDeviceID",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.Asset Location"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Asset Location",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.Load Type"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Load Type",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Firmware Version"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Firmware Version",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.Asset Name"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Asset Name",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Online"
+          },
+          "valueSource": "reference",
+          "dataType": "Boolean",
+          "name": "Online",
+          "historyEnabled": true,
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Online DateTime"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Online DateTime",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.Load Install Date"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Load Install Date",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/EMUProperties/Offline DateTime"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "Offline DateTime",
+          "tagType": "AtomicTag"
+        },
+        {
+          "sourceTagPath": {
+            "bindType": "parameter",
+            "binding": "{sourcePath}/Parameters.MQTTEdgeNodeID"
+          },
+          "valueSource": "reference",
+          "dataType": "String",
+          "name": "MQTTEdgeNodeID",
+          "tagType": "AtomicTag"
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "tagType": "Folder",
+      "tags": [
+        {
+          "name": "PhaseB",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Energy/PhB_NetEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_NetEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Energy/PhB_ApparentEnergy_kVAh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_ApparentEnergy",
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Energy/PhB_NegativeEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_NegativeEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Energy/PhB_PositiveEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_PositiveEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Energy/PhB_NetReactiveEnergy_kVArh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_NetReactiveEnergy",
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            },
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_ReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_ReactivePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_PeakVoltage_V"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_PeakVoltage",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_Frequency_Hz"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhB_Frequency",
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_TruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_TruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_HarmonicTruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_HarmonicTruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_ApparentPower_VA"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhB_ApparentPower",
+                  "deadband": 0.01,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_Current_Arms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.1,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_Current",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_AvgReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhB_AvgReactivePower",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_PowerFactor"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.001,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_PowerFactor",
+                  "historyEnabled": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_Voltage_Vrms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "notes": "Phase B",
+                      "name": "High",
+                      "label": "",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledHigh"
+                      }
+                    },
+                    {
+                      "mode": "BelowValue",
+                      "notes": "Phase B",
+                      "name": "Low",
+                      "label": "PhB",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledLow"
+                      }
+                    }
+                  ],
+                  "name": "PhB_Voltage",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_PeakCurrent_A"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhB_PeakCurrent",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_TruePowerFF_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhB_TruePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseB/Power/PhB_ReactivePowerFF_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhB_ReactivePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseA",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_ReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_ReactivePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_ApparentPower_VA"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhA_ApparentPower",
+                  "deadband": 0.01,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_PowerFactor"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.001,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_PowerFactor",
+                  "historyEnabled": true,
+                  "deadband": 1.0E-4,
+                  "engUnit": "",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_HarmonicTruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_HarmonicTruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_ReactivePowerFF_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhA_ReactivePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_TruePowerFF_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhA_TruePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{HiFreqHistoryProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_PeakVoltage_V"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_PeakVoltage",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_Current_Arms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.1,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_Current",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_Frequency_Hz"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "name": "High",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/EnabledHigh"
+                      }
+                    },
+                    {
+                      "mode": "BelowValue",
+                      "name": "Low",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Frequency/EnabledLow"
+                      }
+                    }
+                  ],
+                  "name": "PhA_Frequency",
+                  "historyEnabled": true,
+                  "deadband": 1.0E-4,
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_Voltage_Vrms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "notes": "Phase A",
+                      "name": "High",
+                      "label": "",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledHigh"
+                      }
+                    },
+                    {
+                      "mode": "BelowValue",
+                      "notes": "Phase A",
+                      "name": "Low",
+                      "label": "",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledLow"
+                      }
+                    }
+                  ],
+                  "name": "PhA_Voltage",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_TruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_TruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_AvgReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhA_AvgReactivePower",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{HiFreqHistoryProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Power/PhA_PeakCurrent_A"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhA_PeakCurrent",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Energy/PhA_NetEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_NetEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Energy/PhA_ApparentEnergy_kVAh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_ApparentEnergy",
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Energy/PhA_NegativeEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_NegativeEnergy",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Energy/PhA_NetReactiveEnergy_kVArh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_NetReactiveEnergy",
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseA/Energy/PhA_PositiveEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhA_PositiveEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Totals",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Power/Total_PowerFactor"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "scaleMode": "Off",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "Total_PowerFactor",
+                  "historyEnabled": true,
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "valueSource": "expr",
+                  "historyMaxAge": 5,
+                  "expression": "if({[.]Total_TruePower}\u003e1,{[.]Total_PowerFactor},null)",
+                  "historicalDeadband": 0.001,
+                  "historyMaxAgeUnits": "MIN",
+                  "alarms": [
+                    {
+                      "mode": "BelowValue",
+                      "name": "Low",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PowerFactor/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PowerFactor/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PowerFactor/EnabledLow"
+                      }
+                    }
+                  ],
+                  "name": "Total_PowerFactor_IgnoringLowPower",
+                  "historyEnabled": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "valueSource": "expr",
+                  "historyMaxAge": 5,
+                  "expression": "if({[.]Total_TruePower}\u003e1,({[.]../../PhaseA/Power/PhA_HarmonicTruePower}+{[.]../../PhaseB/Power/PhB_HarmonicTruePower}+{[.]../../PhaseC/Power/PhC_HarmonicTruePower})/{[.]Total_TruePower},0)",
+                  "documentation": "Percent of total real power that is harmonic power.  Ignores any case where total real power is less than 1 kW.",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "name": "High",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Harmonics/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Harmonics/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Harmonics/Enabled"
+                      }
+                    }
+                  ],
+                  "tooltip": "Percent of Real power which is Harmonic. (ignores powers \u003c 1kW)",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "HarmonicPercentage",
+                  "historyEnabled": true,
+                  "deadband": 0.01,
+                  "executionMode": "FixedRate"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Power/Total_TruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "name": "High",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/EnabledHigh"
+                      }
+                    },
+                    {
+                      "mode": "BelowValue",
+                      "name": "Low",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Power/EnabledLow"
+                      }
+                    }
+                  ],
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "Total_TruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "valueSource": "expr",
+                  "historyMaxAge": 5,
+                  "expression": "if({[.]Total_TruePower}\u003e1,max({[.]../../PhaseA/Power/PhA_TruePower},{[.]../../PhaseB/Power/PhB_TruePower},{[.]../../PhaseC/Power/PhC_TruePower})*3/{[.]Total_TruePower}-1,0)",
+                  "documentation": "Measures the percent above one third of the  total real power for each phase and then reports the maximum of those.  Ignores any case where total real power is less than 1 kW.",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "CustomSmsMessage": "High",
+                      "name": "Alarm",
+                      "label": "High",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/Enabled"
+                      }
+                    }
+                  ],
+                  "tooltip": "Maximum percent above average phase power of any one phase (when power \u003e 1 kW)",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhasePowerDeviationHigh",
+                  "historyEnabled": true,
+                  "deadband": 0.01,
+                  "sampleMode": "OnChange"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "valueSource": "expr",
+                  "historyMaxAge": 5,
+                  "expression": "if({[.]Total_TruePower}\u003e1,1-min({[.]../../PhaseA/Power/PhA_TruePower},{[.]../../PhaseB/Power/PhB_TruePower},{[.]../../PhaseC/Power/PhC_TruePower})*3/{[.]Total_TruePower},0)",
+                  "documentation": "Measures the percent below one third of the  total real power for each phase and then reports the maximum of those.  Ignores any case where total real power is less than 1 kW.",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "CustomEmailMessage": "Low",
+                      "name": "Alarm",
+                      "label": "Low",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/PhaseMismatch/Enabled"
+                      }
+                    }
+                  ],
+                  "tooltip": "Maximum percent below average phase power of any one phase",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhasePowerDeviationMin",
+                  "historyEnabled": true,
+                  "deadband": 0.01,
+                  "sampleMode": "OnChange"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Power/Intervals/Total_VA_15min_Marker"
+                      },
+                      "valueSource": "reference",
+                      "dataType": "Float4",
+                      "name": "Total_VA_15min_Marker",
+                      "deadband": 1.0,
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Power/Intervals/Total_VA_Timer"
+                      },
+                      "valueSource": "reference",
+                      "dataType": "Int4",
+                      "name": "Total_VA_Timer",
+                      "deadband": 1.0,
+                      "executionMode": "FixedRate",
+                      "value": 0,
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "historyProvider": {
+                        "bindType": "parameter",
+                        "binding": "{historyProvider}"
+                      },
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Power/Intervals/Total_VA_15min_Demand"
+                      },
+                      "valueSource": "reference",
+                      "historyMaxAge": 5,
+                      "dataType": "Float4",
+                      "historyMaxAgeUnits": "MIN",
+                      "name": "Total_VA_15min_Demand",
+                      "historyEnabled": true,
+                      "deadband": 1.0,
+                      "value": 0.0,
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Power/Total_ReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "Total_ReactivePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Power/Total_ApparentPower_VA"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "Total_ApparentPower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_NetReactiveEnergy_kVArh"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_NetReactiveEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_PositiveEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "eventScripts": [
+                    {
+                      "eventid": "valueChanged",
+                      "script": "\tsystem.tag.writeBlocking([\"[.]Total_PositiveEnergyTick\"], currentValue.value-previousValue.value)"
+                    }
+                  ],
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_PositiveEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_NetApparentEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_NetApparentEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kVA",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "valueSource": "memory",
+                  "dataType": "Float4",
+                  "name": "Total_PositiveEnergyTick",
+                  "historyEnabled": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "name": "Intervals",
+                  "tagType": "Folder",
+                  "tags": [
+                    {
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Energy/Intervals/Total_kWh_Timer"
+                      },
+                      "valueSource": "reference",
+                      "dataType": "Int4",
+                      "name": "Total_kWh_Timer",
+                      "executionMode": "FixedRate",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "historyProvider": {
+                        "bindType": "parameter",
+                        "binding": "{historyProvider}"
+                      },
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Energy/Intervals/Total_kWh_Current_15min_Interval"
+                      },
+                      "valueSource": "reference",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_Current_15min_Interval",
+                      "historyEnabled": true,
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    },
+                    {
+                      "sourceTagPath": {
+                        "bindType": "parameter",
+                        "binding": "{sourcePath}/EMUData/Totals/Energy/Intervals/Total_kWh_15min_marker"
+                      },
+                      "valueSource": "reference",
+                      "dataType": "Float4",
+                      "name": "Total_kWh_15min_marker",
+                      "executionMode": "FixedRate",
+                      "value": 0.0,
+                      "engUnit": "kWh",
+                      "tagType": "AtomicTag"
+                    }
+                  ]
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_UnsignedEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_UnsignedEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_NetEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_NetEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/Totals/Energy/Total_NegativeEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 300,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "SEC",
+                  "name": "Total_NegativeEnergy",
+                  "historyEnabled": true,
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "PhaseC",
+          "tagType": "Folder",
+          "tags": [
+            {
+              "name": "Power",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_ReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_ReactivePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_PowerFactor"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.001,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_PowerFactor",
+                  "historyEnabled": true,
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_ReactivePowerFF_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhC_ReactivePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_ApparentPower_VA"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhC_ApparentPower",
+                  "deadband": 0.01,
+                  "engUnit": "VA",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_PeakCurrent_A"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "A",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_PeakCurrent",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_TruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_TruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_PeakVoltage_V"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "historicalDeadband": 1.0,
+                  "engUnit": "V",
+                  "tagType": "AtomicTag",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_PeakVoltage",
+                  "historyEnabled": true,
+                  "deadband": 0.01,
+                  "sampleMode": "Periodic",
+                  "historySampleRate": 30
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_Voltage_Vrms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "alarms": [
+                    {
+                      "mode": "AboveValue",
+                      "notes": "Phase C",
+                      "name": "High",
+                      "label": "",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/High"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/HighDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledHigh"
+                      }
+                    },
+                    {
+                      "mode": "BelowValue",
+                      "notes": "Phase C",
+                      "name": "Low",
+                      "label": "",
+                      "setpointA": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/Low"
+                      },
+                      "timeOnDelaySeconds": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/LowDelay"
+                      },
+                      "enabled": {
+                        "bindType": "Tag",
+                        "value": "[.]../../../DashboardSettings/HighLowThresholds/Voltage/EnabledLow"
+                      }
+                    }
+                  ],
+                  "name": "PhC_Voltage",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Vrms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_Frequency_Hz"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_Frequency",
+                  "engUnit": "Hz",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_Current_Arms"
+                  },
+                  "valueSource": "reference",
+                  "historyMaxAge": 5,
+                  "dataType": "Float4",
+                  "historicalDeadband": 0.1,
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_Current",
+                  "historyEnabled": true,
+                  "deadband": 0.1,
+                  "engUnit": "Arms",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_AvgReactivePower_VAr"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhC_AvgReactivePower",
+                  "deadband": 0.01,
+                  "engUnit": "VAr",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                },
+                {
+                  "historyProvider": {
+                    "bindType": "parameter",
+                    "binding": "{historyProvider}"
+                  },
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_HarmonicTruePower_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "historyMaxAge": 5,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "historyMaxAgeUnits": "MIN",
+                  "name": "PhC_HarmonicTruePower",
+                  "historyEnabled": true,
+                  "deadband": 0.01
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Power/PhC_TruePowerFF_W"
+                  },
+                  "valueSource": "reference",
+                  "rawHigh": 1000.0,
+                  "scaleMode": "Linear",
+                  "dataType": "Float4",
+                  "name": "PhC_TruePowerFF",
+                  "deadband": 0.01,
+                  "engUnit": "W",
+                  "tagType": "AtomicTag",
+                  "scaledHigh": 1.0
+                }
+              ]
+            },
+            {
+              "name": "Energy",
+              "tagType": "Folder",
+              "tags": [
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Energy/PhC_NetReactiveEnergy_kVArh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_NetReactiveEnergy",
+                  "engUnit": "kVArh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Energy/PhC_NegativeEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_NegativeEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Energy/PhC_ApparentEnergy_kVAh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_ApparentEnergy",
+                  "engUnit": "kVAh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Energy/PhC_PositiveEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_PositiveEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                },
+                {
+                  "sourceTagPath": {
+                    "bindType": "parameter",
+                    "binding": "{sourcePath}/EMUData/PhaseC/Energy/PhC_NetEnergy_kWh"
+                  },
+                  "valueSource": "reference",
+                  "dataType": "Float4",
+                  "name": "PhC_NetEnergy",
+                  "engUnit": "kWh",
+                  "tagType": "AtomicTag"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
