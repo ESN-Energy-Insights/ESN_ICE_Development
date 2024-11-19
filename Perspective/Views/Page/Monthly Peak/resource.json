@@ -4,14 +4,14 @@
   "restricted": false,
   "overridable": true,
   "files": [
-    "thumbnail.png",
-    "view.json"
+    "view.json",
+    "thumbnail.png"
   ],
   "attributes": {
-    "lastModificationSignature": "620798e8ec80de69190c1b4da12023c7e2550e527c0da0d4d6fcecfe7235ddb6",
     "lastModification": {
-      "actor": "becca@energysystemsnetwork.com",
-      "timestamp": "2024-10-02T14:38:02Z"
-    }
+      "actor": "wjg@braemail.us",
+      "timestamp": "2024-11-05T15:12:56Z"
+    },
+    "lastModificationSignature": "3848fe6e5643cbb9485e83ede4254b4e0e33ad86ecf6a3858278a0d925173e0d"
   }
 }
