@@ -61,51 +61,51 @@ def buildMenu(edgeNodes):
 	
 	deviceCount = 0
 	
-	for i in edgeNodes:
-		
-		edgeNode = {
-			  "target": "/",
-			  "items": [],
-			  "navIcon": {"path": "material/chevron_right","color": "#000F5D"},
-			  "label": {
-			    "text": i.name,
-			    "icon": {
-			      "path": "material/device_hub",
-			      "color": "#000F5D"
-			    }
-			  },
-			  "showHeader": False,
-			  "style": {
-			    "classes": "",
-			    "fontWeight": "bold"
-			  }
-			}
-		
-
-		for d in i["energyLoads"][deviceCount]:
-			#typeId = d.typeId.split("/")[len(d.typeId.split("/"))-1]
-			typeId = d.typeId
-			device = {
-				  "target": "/energy-device/" + i.name + "/" + d.name + "/" + typeId,
-				  "items": [],
-				  "navIcon": {},
-				  "label": {
-				    "text": d.name,
-				    "icon": {
-				      "path": "material/offline_bolt",
-				      "color": "#000F5D"
-				    }
-				  },
-				  "showHeader": False,
-				  "style": {
-				    "classes": "",
-				    "fontWeight": "bold"
-				  }
-				}
-			edgeNode['items'].append(device)
-		deviceCount = deviceCount + 1
-		
-		menu.append(edgeNode)
+#	for i in edgeNodes:
+#		
+#		edgeNode = {
+#			  "target": "/",
+#			  "items": [],
+#			  "navIcon": {"path": "material/chevron_right","color": "#000F5D"},
+#			  "label": {
+#			    "text": i.name,
+#			    "icon": {
+#			      "path": "material/device_hub",
+#			      "color": "#000F5D"
+#			    }
+#			  },
+#			  "showHeader": False,
+#			  "style": {
+#			    "classes": "",
+#			    "fontWeight": "bold"
+#			  }
+#			}
+#		
+#
+#		for d in i["energyLoads"][deviceCount]:
+##			typeId = d.typeId.split("/")[len(d.typeId.split("/"))-1]
+#			typeId = d.typeId
+#			device = {
+#				  "target": "/energy-device/" + i.name + "/" + d.name + "/" + typeId,
+#				  "items": [],
+#				  "navIcon": {},
+#				  "label": {
+#				    "text": d.name,
+#				    "icon": {
+#				      "path": "material/offline_bolt",
+#				      "color": "#000F5D"
+#				    }
+#				  },
+#				  "showHeader": False,
+#				  "style": {
+#				    "classes": "",
+#				    "fontWeight": "bold"
+#				  }
+#				}
+#			edgeNode['items'].append(device)
+#		deviceCount = deviceCount + 1
+#		
+#		menu.append(edgeNode)
 		
 	return menu
 	
